@@ -15,6 +15,9 @@ frontend/dist/
 mlflow.db
 mlruns/
 
+# Firebase CLI local cache (not needed to redeploy -- firebase.json + .firebaserc are committed)
+.firebase/
+
 # OS
 .DS_Store
 

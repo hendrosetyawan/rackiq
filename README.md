@@ -10,6 +10,13 @@ Team **RackIQ**: Tasmaiya Tamboli &middot; Hendro Setyawan
 > Idea-phase submission: [`final_submission/RackIQ_Submission.pdf`](../final_submission/RackIQ_Submission.pdf)
 > (in the parent hackathon folder). This repo is the Prototype Phase build.
 
+**Live demo (static, no backend):** https://rackiq-copilot.web.app &mdash; a Firebase-hosted build
+of the frontend running against a precomputed data snapshot (see `frontend/src/api/client.js`'s
+demo mode and `scripts/export_static_demo.py`), since Firebase Hosting's free tier serves static
+files only. Run locally (below) for the full live pipeline with the real FastAPI backend.
+
+**Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) (42s).
+
 ---
 
 ## What this is
@@ -93,5 +100,15 @@ for the day-by-day plan and who owns what):
 - [x] Source code repository (this repo)
 - [x] Technical documentation ([`docs/TECHNICAL_DOCUMENTATION.md`](docs/TECHNICAL_DOCUMENTATION.md))
 - [x] Project summary ([`docs/PROJECT_SUMMARY.md`](docs/PROJECT_SUMMARY.md))
-- [ ] Demo video (script ready at [`docs/DEMO_VIDEO_SCRIPT.md`](docs/DEMO_VIDEO_SCRIPT.md), recording pending)
-- [ ] Presentation deck (optional)
+- [x] Demo video ([`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4), 42s; script at [`docs/DEMO_VIDEO_SCRIPT.md`](docs/DEMO_VIDEO_SCRIPT.md))
+- [x] Presentation deck (optional) &mdash; see `prototype_submission/rackiq_presentation.pptx` in the parent hackathon folder
+- [x] Hosted demo (optional) &mdash; https://rackiq-copilot.web.app (static snapshot build)
+
+## Redeploying the static demo (Firebase Hosting)
+
+```bash
+# 1. backend running locally with a fresh seed (see Quickstart above)
+python3 scripts/export_static_demo.py        # snapshots live API responses to frontend/public/data/
+cd frontend && VITE_DEMO_MODE=true npm run build && cd ..
+firebase deploy --only hosting --project rackiq-copilot
+```
