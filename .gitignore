@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/dist/
+
+# MLflow experiment-tracking store (regenerate with `python -m backend.app.ml.train`)
+# Trained model artifacts (backend/app/ml/artifacts/*.joblib) ARE committed so the
+# repo is immediately runnable after `pip install` with no training step required.
+mlflow.db
+mlruns/
+
+# OS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/

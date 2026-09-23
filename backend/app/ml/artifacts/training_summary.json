@@ -1,0 +1,98 @@
+{
+  "dimm": {
+    "component": "dimm",
+    "n_rows": 33024,
+    "n_positive": 182,
+    "n_assets": 96,
+    "test_auc": 0.991,
+    "test_avg_precision": 0.9006,
+    "feature_columns": [
+      "ecc_correctable_24h_mean",
+      "ecc_correctable_24h_max",
+      "ecc_correctable_24h_slope",
+      "ecc_correctable_24h_latest",
+      "ecc_uncorrectable_24h_mean",
+      "ecc_uncorrectable_24h_max",
+      "ecc_uncorrectable_24h_slope",
+      "ecc_uncorrectable_24h_latest",
+      "temp_c_mean",
+      "temp_c_max",
+      "temp_c_slope",
+      "temp_c_latest"
+    ]
+  },
+  "disk": {
+    "component": "disk",
+    "n_rows": 33024,
+    "n_positive": 312,
+    "n_assets": 96,
+    "test_auc": 0.9994,
+    "test_avg_precision": 0.9583,
+    "feature_columns": [
+      "reallocated_sectors_mean",
+      "reallocated_sectors_max",
+      "reallocated_sectors_slope",
+      "reallocated_sectors_latest",
+      "pending_sectors_mean",
+      "pending_sectors_max",
+      "pending_sectors_slope",
+      "pending_sectors_latest",
+      "smart_read_error_rate_mean",
+      "smart_read_error_rate_max",
+      "smart_read_error_rate_slope",
+      "smart_read_error_rate_latest",
+      "temp_c_mean",
+      "temp_c_max",
+      "temp_c_slope",
+      "temp_c_latest"
+    ]
+  },
+  "psu": {
+    "component": "psu",
+    "n_rows": 33024,
+    "n_positive": 273,
+    "n_assets": 96,
+    "test_auc": 0.9925,
+    "test_avg_precision": 0.879,
+    "feature_columns": [
+      "input_voltage_v_mean",
+      "input_voltage_v_max",
+      "input_voltage_v_slope",
+      "input_voltage_v_latest",
+      "output_ripple_mv_mean",
+      "output_ripple_mv_max",
+      "output_ripple_mv_slope",
+      "output_ripple_mv_latest",
+      "fan_rpm_mean",
+      "fan_rpm_max",
+      "fan_rpm_slope",
+      "fan_rpm_latest",
+      "temp_c_mean",
+      "temp_c_max",
+      "temp_c_slope",
+      "temp_c_latest"
+    ]
+  },
+  "nic": {
+    "component": "nic",
+    "n_rows": 33024,
+    "n_positive": 260,
+    "n_assets": 96,
+    "test_auc": 0.9993,
+    "test_avg_precision": 0.9327,
+    "feature_columns": [
+      "link_flap_count_24h_mean",
+      "link_flap_count_24h_max",
+      "link_flap_count_24h_slope",
+      "link_flap_count_24h_latest",
+      "crc_errors_24h_mean",
+      "crc_errors_24h_max",
+      "crc_errors_24h_slope",
+      "crc_errors_24h_latest",
+      "temp_c_mean",
+      "temp_c_max",
+      "temp_c_slope",
+      "temp_c_latest"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+pandas
+numpy
+scikit-learn
+lightgbm
+shap
+mlflow
+rank_bm25
+networkx
+joblib
+pytest
+httpx
