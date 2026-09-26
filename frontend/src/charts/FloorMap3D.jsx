@@ -83,7 +83,7 @@ export default function FloorMap3D({ floor, mode = 'health', selected, onSelect 
 
       const racks = floor.racks.filter((r) => r.row === row).sort((a, b) => a.pos - b.pos)
       racks.forEach((rack) => {
-        const g = svg.append('g').attr('transform', `translate(${rx(rack.pos, ri)},${y})`).style('cursor', 'pointer')
+        const g = svg.append('g').attr('data-rack', rack.rack_id).attr('transform', `translate(${rx(rack.pos, ri)},${y})`).style('cursor', 'pointer')
           .on('click', () => onSelect && onSelect(rack.rack_id))
         if (rack.n_crit > 0) g.append('ellipse').attr('cx', W / 2 + DX / 2).attr('cy', H + 2).attr('rx', W * 0.9).attr('ry', 7).attr('fill', 'url(#fmHot)')
         // side + top faces
@@ -104,7 +104,7 @@ export default function FloorMap3D({ floor, mode = 'health', selected, onSelect 
           sg.append('circle').attr('cx', W - 4).attr('cy', sy + (SLOT_H - 1.6) / 2).attr('r', 1.7)
             .attr('fill', TIER_COLOR[s.status]).attr('class', s.status === 'critical' ? 'pulse' : null)
             .attr('filter', s.status !== 'healthy' ? fglow : null)
-          sg.append('rect').attr('x', 1).attr('y', sy - 0.6).attr('width', W - 2).attr('height', SLOT_H).attr('fill', 'transparent')
+          sg.append('rect').attr('data-slot', s.server_id).attr('x', 1).attr('y', sy - 0.6).attr('width', W - 2).attr('height', SLOT_H).attr('fill', 'transparent')
             .on('mouseenter', (e) => tip.show(slotHtml(rack, s), e))
             .on('mousemove', (e) => tip.move(e))
             .on('mouseleave', () => tip.hide())

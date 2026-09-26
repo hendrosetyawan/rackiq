@@ -38,7 +38,7 @@ export default function RackElevation({ rack, onOpen }) {
       COMPONENTS.forEach((c, i) => {
         const t = s.tiers[c]
         const r = s.comps[c]
-        const cg = g.append('g').attr('transform', `translate(${cellX(i)},4)`).style('cursor', 'pointer')
+        const cg = g.append('g').attr('data-asset', `${s.server_id}-${c.toUpperCase()}`).attr('transform', `translate(${cellX(i)},4)`).style('cursor', 'pointer')
           .on('click', () => onOpen && onOpen(`${s.server_id}-${c.toUpperCase()}`))
           .on('mouseenter', (e) => tip.show(`<div class="h">${s.server_id}-${c.toUpperCase()}</div>72h failure risk <b style="color:${TIER_COLOR[t]}">${(r * 100).toFixed(1)}%</b><div class="k">click for cited recommendation</div>`, e))
           .on('mousemove', (e) => tip.move(e)).on('mouseleave', () => tip.hide())

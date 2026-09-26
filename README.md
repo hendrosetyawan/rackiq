@@ -8,7 +8,7 @@ ABB Accelerator 2026 — hybrid of Theme 1 (Agentic Predictive Maintenance Studi
 Team **RackIQ**: Tasmaiya Tamboli · Hendro Setyawan
 
 - **Live demo:** https://rackiq-copilot.web.app (static snapshot build, see below)
-- **Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) (under 1 minute)
+- **Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) — 59 s click-driven walkthrough: floor → rack → failing part → cited fix → spare part
 
 ---
 

@@ -48,7 +48,7 @@ export function RiskMatrix({ data, onOpen }) {
     })
     const g = svg.append('g')
     g.selectAll('circle').data(nodes.sort((a, b) => a.priority_score - b.priority_score)).join('circle')
-      .attr('cx', (d) => d.x).attr('cy', (d) => d.y).attr('r', (d) => d.rr)
+      .attr('data-asset', (d) => d.asset_id).attr('cx', (d) => d.x).attr('cy', (d) => d.y).attr('r', (d) => d.rr)
       .attr('fill', (d) => COMP_COLOR[d.component]).attr('fill-opacity', (d) => (d.tier === 'watch' ? 0.35 : 0.72))
       .attr('stroke', (d) => (d.tier !== 'watch' && (d.part_status === 'stockout_risk' || d.part_status === 'reorder') ? STOCK_COLOR[d.part_status] : '#0b1222'))
       .attr('stroke-width', (d) => (d.tier === 'watch' ? 0.8 : d.part_status === 'stockout_risk' ? 2.4 : d.part_status === 'reorder' ? 1.8 : 1))

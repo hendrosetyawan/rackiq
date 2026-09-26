@@ -25,7 +25,7 @@ export function StockRunway({ data, selected, onSelect }) {
     svg.append('text').attr('x', width - 4).attr('y', 10).attr('text-anchor', 'end').attr('fill', C.dim).style('font', '600 8.5px Inter').text('COVER · TURNS')
     data.forEach((d, i) => {
       const y = m.t + i * rowH
-      const g = svg.append('g').attr('transform', `translate(0,${y})`).style('cursor', 'pointer').on('click', () => onSelect && onSelect(d.sku))
+      const g = svg.append('g').attr('data-sku', d.sku).attr('transform', `translate(0,${y})`).style('cursor', 'pointer').on('click', () => onSelect && onSelect(d.sku))
       if (d.sku === selected) g.append('rect').attr('x', 0).attr('y', 0).attr('width', width).attr('height', rowH - 2).attr('rx', 5).attr('fill', 'rgba(34,211,238,.07)').attr('stroke', 'rgba(34,211,238,.35)')
       g.append('circle').attr('cx', 8).attr('cy', rowH / 2 - 1).attr('r', 3).attr('fill', STOCK_COLOR[d.status]).attr('filter', d.status === 'stockout_risk' ? fglow : null)
       g.append('text').attr('x', 17).attr('y', 11).attr('fill', C.text).style('font', '600 10px JetBrains Mono').text(d.sku)

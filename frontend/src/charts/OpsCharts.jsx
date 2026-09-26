@@ -125,7 +125,7 @@ export function ParallelCoords({ servers, onCount }) {
       onCount && onCount(servers.filter(active).length)
     }
     PC_DIMS.forEach(([k, label]) => {
-      const ax = svg.append('g').attr('transform', `translate(${x(k)},0)`)
+      const ax = svg.append('g').attr('data-dim', k).attr('transform', `translate(${x(k)},0)`)
       ax.call(d3.axisLeft(y[k]).ticks(4).tickSize(3)).call((g) => {
         g.select('.domain').attr('stroke', C.line2)
         g.selectAll('text').attr('fill', C.dim).style('font', '8.5px JetBrains Mono')
