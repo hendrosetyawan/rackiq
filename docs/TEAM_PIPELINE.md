@@ -1,5 +1,12 @@
 # Team Pipeline &mdash; Prototype Phase (Sep 22 &rarr; Sep 27, 4:59 PM Central)
 
+> **Update, Sep 26 (v2):** the prototype was scaled to a 100-rack / 800-server / 4,000-component
+> synthetic data hall with MELT telemetry, a 12-month incident knowledge base and a spare-parts
+> warehouse, and the UI was rebuilt as a five-section D3.js DCIM dashboard (Command Center,
+> Operations, Maintenance, Event Log, Inventory). Demo video, hosted demo and deck are done; remaining
+> work before the Sep 27 4:59 PM CT deadline is review, a final run-through and submission.
+
+
 Status as of Sep 22: idea phase passed, and a working end-to-end prototype already exists in this
 repo (backend API, trained models, retrieval + graph, deterministic recommendation agent, React
 frontend, 15 passing tests, docs). The remaining ~5 days are for **review, polish, integration

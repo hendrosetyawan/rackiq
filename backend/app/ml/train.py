@@ -1,8 +1,8 @@
 """
-Trains one gradient-boosted failure-risk classifier per component type
-(DIMM, disk, PSU, NIC) on the synthetic telemetry, logs each run to a local
-MLflow tracking store, and saves the model + SHAP explainer + feature list
-to backend/app/ml/artifacts/ for the API to load at request time.
+Trains one LightGBM failure-risk classifier per component type (DIMM, disk,
+PSU, NIC, fan) on the synthetic telemetry, logs each run to a local MLflow
+store, and saves model + SHAP explainer + drift reference bins to
+backend/app/ml/artifacts/.
 
 Run: python -m backend.app.ml.train   (from the rackiq/ repo root)
 """
@@ -20,105 +20,70 @@ import shap
 from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.model_selection import GroupShuffleSplit
 
-from .features import COMPONENT_CHANNELS, TAIL_HOLDOUT_READINGS, build_feature_table, feature_columns
+from .features import COMPONENT_CHANNELS, build_training_table, feature_columns
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = REPO_ROOT / "data" / "synthetic"
 ARTIFACT_DIR = Path(__file__).parent / "artifacts"
 ARTIFACT_DIR.mkdir(exist_ok=True)
-
 MLFLOW_URI = f"sqlite:///{(REPO_ROOT / 'mlflow.db').as_posix()}"
+PARAMS = dict(n_estimators=250, num_leaves=15, max_depth=5, learning_rate=0.06, min_child_samples=30,
+              subsample=0.8, subsample_freq=1, colsample_bytree=0.9, class_weight="balanced", random_state=42, verbosity=-1)
+
+
+def drift_reference(X: pd.DataFrame) -> dict:
+    """Decile bin edges + proportions per feature, for PSI drift monitoring."""
+    ref = {}
+    for c in X.columns:
+        edges = np.unique(np.quantile(X[c], np.linspace(0, 1, 11)))
+        if len(edges) < 3:
+            continue
+        counts = np.histogram(np.clip(X[c], edges[0], edges[-1]), bins=edges)[0]
+        ref[c] = {"edges": edges.tolist(), "props": (counts / counts.sum()).tolist()}
+    return ref
 
 
 def train_component(component: str, telemetry: pd.DataFrame, failure_events: pd.DataFrame) -> dict:
-    table = build_feature_table(
-        telemetry, failure_events, component, exclude_tail_readings=TAIL_HOLDOUT_READINGS
-    )
+    table = build_training_table(telemetry, failure_events, component)
     cols = feature_columns(component)
-    X = table[cols]
-    y = table["label"]
-    groups = table["asset_id"]
+    X, y, groups = table[cols], table["label"], table["asset_key"]
+    tr, te = next(GroupShuffleSplit(n_splits=1, test_size=0.25, random_state=42).split(X, y, groups))
 
-    if y.sum() < 5:
-        raise ValueError(f"Not enough positive labels for {component}: {y.sum()}")
+    model = lgb.LGBMClassifier(**PARAMS)
+    model.fit(X.iloc[tr], y.iloc[tr])
+    proba = model.predict_proba(X.iloc[te])[:, 1]
+    auc = roc_auc_score(y.iloc[te], proba)
+    ap = average_precision_score(y.iloc[te], proba)
 
-    splitter = GroupShuffleSplit(n_splits=1, test_size=0.25, random_state=42)
-    train_idx, test_idx = next(splitter.split(X, y, groups))
-    X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
-    y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+    joblib.dump(model, ARTIFACT_DIR / f"{component}_model.joblib")
+    joblib.dump(shap.TreeExplainer(model), ARTIFACT_DIR / f"{component}_explainer.joblib")
+    importance = dict(sorted(zip(cols, model.booster_.feature_importance("gain").tolist()), key=lambda t: -t[1])[:6])
 
-    model = lgb.LGBMClassifier(
-        n_estimators=200,
-        num_leaves=15,
-        max_depth=4,
-        learning_rate=0.08,
-        min_child_samples=20,
-        class_weight="balanced",
-        random_state=42,
-        verbosity=-1,
-    )
-    model.fit(X_train, y_train)
-
-    proba = model.predict_proba(X_test)[:, 1]
-    auc = roc_auc_score(y_test, proba) if y_test.nunique() > 1 else float("nan")
-    ap = average_precision_score(y_test, proba) if y_test.nunique() > 1 else float("nan")
-
-    explainer = shap.TreeExplainer(model)
-
-    model_path = ARTIFACT_DIR / f"{component}_model.joblib"
-    explainer_path = ARTIFACT_DIR / f"{component}_explainer.joblib"
-    joblib.dump(model, model_path)
-    joblib.dump(explainer, explainer_path)
-
-    metrics = {
-        "component": component,
-        "n_rows": int(len(table)),
-        "n_positive": int(y.sum()),
-        "n_assets": int(groups.nunique()),
-        "test_auc": None if np.isnan(auc) else round(float(auc), 4),
-        "test_avg_precision": None if np.isnan(ap) else round(float(ap), 4),
-        "feature_columns": cols,
-    }
+    metrics = dict(component=component, n_rows=int(len(table)), n_positive=int(y.sum()), n_assets=int(groups.nunique()),
+                   test_auc=round(float(auc), 4), test_avg_precision=round(float(ap), 4), feature_columns=cols,
+                   top_features_gain={k: round(v, 1) for k, v in importance.items()},
+                   drift_reference=drift_reference(X.iloc[tr]))
 
     with mlflow.start_run(run_name=f"rackiq-{component}-failure-risk"):
-        mlflow.log_params(
-            {
-                "component": component,
-                "n_estimators": 200,
-                "num_leaves": 15,
-                "max_depth": 4,
-                "learning_rate": 0.08,
-            }
-        )
-        mlflow.log_metrics(
-            {k: v for k, v in metrics.items() if isinstance(v, (int, float)) and v is not None}
-        )
-        mlflow.log_artifact(str(model_path))
-        mlflow.log_artifact(str(explainer_path))
-
+        mlflow.log_params({"component": component, **{k: v for k, v in PARAMS.items() if k != "verbosity"}})
+        mlflow.log_metrics({"test_auc": metrics["test_auc"], "test_avg_precision": metrics["test_avg_precision"],
+                            "n_rows": metrics["n_rows"], "n_positive": metrics["n_positive"]})
     return metrics
 
 
 def main():
     mlflow.set_tracking_uri(MLFLOW_URI)
     mlflow.set_experiment("rackiq-failure-prediction")
-
-    telemetry = pd.read_csv(DATA_DIR / "telemetry.csv")
     failure_events = pd.read_csv(DATA_DIR / "failure_events.csv")
-
-    all_metrics = {}
+    summary = {}
     for component in COMPONENT_CHANNELS:
-        print(f"Training {component} model...")
-        metrics = train_component(component, telemetry, failure_events)
-        all_metrics[component] = metrics
-        print(f"  -> AUC={metrics['test_auc']} AP={metrics['test_avg_precision']} "
-              f"positives={metrics['n_positive']}/{metrics['n_rows']}")
-
+        telemetry = pd.read_parquet(DATA_DIR / "telemetry" / f"{component}.parquet")
+        m = train_component(component, telemetry, failure_events)
+        summary[component] = m
+        print(f"{component:5s} AUC={m['test_auc']} AP={m['test_avg_precision']} positives={m['n_positive']}/{m['n_rows']}")
     with open(ARTIFACT_DIR / "training_summary.json", "w") as f:
-        json.dump(all_metrics, f, indent=2)
-
-    print(f"\nArtifacts written to {ARTIFACT_DIR}")
-    print(f"MLflow runs logged to {MLFLOW_URI} (experiment: rackiq-failure-prediction)")
+        json.dump(summary, f, indent=1)
+    print(f"Artifacts -> {ARTIFACT_DIR}")
 
 
 if __name__ == "__main__":

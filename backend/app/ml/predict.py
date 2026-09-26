@@ -1,10 +1,13 @@
 """
-Loads trained per-component models + SHAP explainers and scores current
-telemetry, returning a failure-risk probability plus the top contributing
-features (explainable AI, Theme 1 requirement) for each asset.
+Batch scoring of the whole fleet: loads the per-component models and SHAP
+explainers, scores every asset's most recent reading, and returns risk,
+top contributing factors (explainable AI) and AI-telemetry about the models
+themselves (inference latency, confidence, feature drift).
 """
 from __future__ import annotations
 
+import json
+import time
 from functools import lru_cache
 from pathlib import Path
 
@@ -12,89 +15,95 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from .features import COMPONENT_CHANNELS, ROLL_WINDOW, feature_columns
+from .features import COMPONENT_CHANNELS, feature_columns, latest_features
 
 ARTIFACT_DIR = Path(__file__).parent / "artifacts"
 
 
 @lru_cache(maxsize=None)
-def _load_model(component: str):
+def _model(component):
     return joblib.load(ARTIFACT_DIR / f"{component}_model.joblib")
 
 
 @lru_cache(maxsize=None)
-def _load_explainer(component: str):
+def _explainer(component):
     return joblib.load(ARTIFACT_DIR / f"{component}_explainer.joblib")
 
 
-def _asset_component(asset_id: str) -> str:
-    return asset_id.rsplit("-", 1)[-1].lower()
+@lru_cache(maxsize=1)
+def training_summary() -> dict:
+    with open(ARTIFACT_DIR / "training_summary.json") as f:
+        return json.load(f)
 
 
-def latest_features_for_asset(telemetry: pd.DataFrame, asset_id: str) -> pd.Series | None:
-    """Rebuilds the same rolling features used at train time, for the most recent reading."""
-    component = _asset_component(asset_id)
-    channels = COMPONENT_CHANNELS[component]
-    g = telemetry[telemetry["asset_id"] == asset_id].copy()
-    if g.empty:
-        return None
-    g["timestamp"] = pd.to_datetime(g["timestamp"])
-    g = g.sort_values("timestamp").reset_index(drop=True)
-
-    feats = {}
-    for ch in channels:
-        window = g[ch].rolling(ROLL_WINDOW, min_periods=1)
-        feats[f"{ch}_mean"] = window.mean().iloc[-1]
-        feats[f"{ch}_max"] = window.max().iloc[-1]
-        feats[f"{ch}_slope"] = g[ch].diff().rolling(ROLL_WINDOW, min_periods=1).mean().iloc[-1]
-        feats[f"{ch}_latest"] = g[ch].iloc[-1]
-
-    series = pd.Series(feats).fillna(0.0)
-    return series
+ANOMALY_Z_WATCH = 3.0
 
 
-def score_asset(telemetry: pd.DataFrame, asset_id: str) -> dict | None:
-    component = _asset_component(asset_id)
-    if component not in COMPONENT_CHANNELS:
-        return None
-
-    feats = latest_features_for_asset(telemetry, asset_id)
-    if feats is None:
-        return None
-
-    cols = feature_columns(component)
-    X = feats[cols].to_frame().T
-
-    model = _load_model(component)
-    explainer = _load_explainer(component)
-
-    risk = float(model.predict_proba(X)[:, 1][0])
-    shap_values = explainer.shap_values(X)
-    # lightgbm binary classifier -> shap_values may be a list [class0, class1] or single array
-    sv = shap_values[1][0] if isinstance(shap_values, list) else shap_values[0]
-
-    contributions = sorted(
-        zip(cols, sv.tolist(), X.iloc[0].tolist()),
-        key=lambda t: abs(t[1]),
-        reverse=True,
-    )[:4]
-
-    return {
-        "asset_id": asset_id,
-        "component": component,
-        "risk_score": round(risk, 4),
-        "top_factors": [
-            {"feature": f, "shap_contribution": round(float(v), 4), "value": round(float(val), 3)}
-            for f, v, val in contributions
-        ],
-    }
+def risk_tier(r: float, z: float = 0.0) -> str:
+    """Status tier from 72h failure risk plus the telemetry anomaly index:
+    'watch' also covers components that deviate from the fleet baseline but
+    are not (yet) predicted to fail within 72 h."""
+    if r >= 0.75:
+        return "critical"
+    if r >= 0.5 or (r >= 0.1 and z >= ANOMALY_Z_WATCH):
+        return "warning"
+    if r >= 0.25 or z >= ANOMALY_Z_WATCH:
+        return "watch"
+    return "healthy"
 
 
-def score_all_assets(telemetry: pd.DataFrame, assets: pd.DataFrame) -> list[dict]:
-    results = []
-    for asset_id in assets["asset_id"]:
-        r = score_asset(telemetry, asset_id)
-        if r:
-            results.append(r)
-    results.sort(key=lambda r: r["risk_score"], reverse=True)
-    return results
+def anomaly_z(feats: pd.DataFrame, component: str) -> pd.Series:
+    """Robust deviation of each asset's 2-day channel means from the fleet
+    baseline (median / MAD, floored at half a standard deviation); max over channels."""
+    zs = []
+    for ch in COMPONENT_CHANNELS[component]:
+        v = feats[f"{ch}_mean"]
+        med = v.median()
+        scale = max(1.4826 * (v - med).abs().median(), 0.5 * v.std(), 1e-3)
+        zs.append(((v - med) / scale).abs())
+    return pd.concat(zs, axis=1).max(axis=1)
+
+
+def psi(ref: dict, values: np.ndarray) -> float:
+    edges = np.array(ref["edges"])
+    cur = np.histogram(np.clip(values, edges[0], edges[-1]), bins=edges)[0] / max(len(values), 1)
+    exp = np.array(ref["props"])
+    cur, exp = np.clip(cur, 1e-4, None), np.clip(exp, 1e-4, None)
+    return float(np.sum((cur - exp) * np.log(cur / exp)))
+
+
+def score_fleet(telemetry: dict[str, pd.DataFrame]) -> tuple[pd.DataFrame, dict]:
+    """telemetry: component -> long telemetry DataFrame.
+    Returns (scores indexed by asset_id, ai_telemetry dict per component)."""
+    frames, ai = [], {}
+    summary = training_summary()
+    for comp in COMPONENT_CHANNELS:
+        cols = feature_columns(comp)
+        t0 = time.perf_counter()
+        feats = latest_features(telemetry[comp], comp)
+        X = feats[cols]
+        proba = _model(comp).predict_proba(X)[:, 1]
+        t_pred = time.perf_counter() - t0
+        sv = _explainer(comp).shap_values(X)
+        sv = sv[1] if isinstance(sv, list) else sv
+        order = np.argsort(-np.abs(sv), axis=1)[:, :4]
+        top = [[{"feature": cols[k], "shap_contribution": round(float(sv[i, k]), 3), "value": round(float(X.iat[i, k]), 3)}
+                for k in order[i]] for i in range(len(X))]
+        z = anomaly_z(feats, comp).reindex(X.index)
+        frames.append(pd.DataFrame({"asset_id": X.index, "component": comp, "risk_score": np.round(proba, 4),
+                                    "anomaly_z": np.round(z.values, 2),
+                                    "health_index": (100 - np.clip((z.values - 1.5) * 12, 0, 100)).round(0), "top_factors": top}))
+        ref = summary[comp].get("drift_reference", {})
+        drift = {c: round(psi(ref[c], X[c].values), 4) for c in cols if c in ref}
+        conf = np.maximum(proba, 1 - proba)
+        ai[comp] = dict(model="LightGBM", test_auc=summary[comp]["test_auc"], test_avg_precision=summary[comp]["test_avg_precision"],
+                        n_scored=int(len(X)), inference_ms_total=round(t_pred * 1000, 1),
+                        inference_us_per_asset=round(t_pred * 1e6 / max(len(X), 1), 1),
+                        mean_confidence=round(float(conf.mean()), 4), low_confidence_share=round(float((conf < 0.8).mean()), 4),
+                        psi_max=round(max(drift.values()), 4) if drift else 0.0,
+                        psi_mean=round(float(np.mean(list(drift.values()))), 4) if drift else 0.0,
+                        drift_top=dict(sorted(drift.items(), key=lambda t: -t[1])[:3]),
+                        top_features_gain=summary[comp].get("top_features_gain", {}))
+    scores = pd.concat(frames, ignore_index=True).set_index("asset_id")
+    scores["tier"] = [risk_tier(r, z) for r, z in zip(scores.risk_score, scores.anomaly_z)]
+    return scores, ai

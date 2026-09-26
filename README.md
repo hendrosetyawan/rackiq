@@ -1,114 +1,99 @@
 # RackIQ
 
-**A Predictive Hardware Failure & Root-Cause Recommendation Copilot for Data Center Operations**
+**Predictive hardware failure & cited RCA recommendation copilot for data center operations**
 
-ABB Accelerator 2026 &mdash; Hybrid Theme 1 (Agentic Predictive Maintenance Studio) + Theme 2
-(Multimodal Maintenance Intelligence Agent), applied to data-center hardware operations.
+ABB Accelerator 2026 — hybrid of Theme 1 (Agentic Predictive Maintenance Studio) and Theme 2
+(Multimodal Maintenance Intelligence Agent), applied to data-center hardware.
 
-Team **RackIQ**: Tasmaiya Tamboli &middot; Hendro Setyawan
+Team **RackIQ**: Tasmaiya Tamboli · Hendro Setyawan
 
-> Idea-phase submission: [`final_submission/RackIQ_Submission.pdf`](../final_submission/RackIQ_Submission.pdf)
-> (in the parent hackathon folder). This repo is the Prototype Phase build.
-
-**Live demo (static, no backend):** https://rackiq-copilot.web.app &mdash; a Firebase-hosted build
-of the frontend running against a precomputed data snapshot (see `frontend/src/api/client.js`'s
-demo mode and `scripts/export_static_demo.py`), since Firebase Hosting's free tier serves static
-files only. Run locally (below) for the full live pipeline with the real FastAPI backend.
-
-**Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) (42s).
+- **Live demo:** https://rackiq-copilot.web.app (static snapshot build, see below)
+- **Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) (under 1 minute)
 
 ---
 
-## What this is
+## What it does
 
-When a DIMM, disk, PSU, or NIC starts failing in a data center, the fix has usually already
-been found before &mdash; buried in a closed ServiceNow ticket, an RCA document, or an email
-thread from six months ago. RackIQ (1) predicts component failure risk from telemetry before
-it becomes an outage, and (2) retrieves the specific historical fix that worked before, with
-citations, adapted to whatever is operationally happening on that rack right now (migration,
-backup window, DR failover).
+When a DIMM, disk, PSU, NIC or fan starts to fail, the fix has usually been found before — in a
+closed ticket, an RCA or an email thread. RackIQ:
 
-## What's real vs. what's scoped down for the prototype
+1. **Predicts** failure risk for every monitored component 72 hours ahead from telemetry trends,
+   with SHAP explanations, plus a telemetry anomaly index for early "watch" signals.
+2. **Recommends** the fix that actually held in the organization's own 12-month incident history,
+   cited to the source document, ranked by its durable-fix rate, and flags fixes that did *not* hold.
+3. **Adapts** to what is happening on the rack right now (migration, backup window, DR failover,
+   maintenance window) with a safety step first.
+4. **Links spare parts**: every recommended fix shows the matching SKU's stock; the warehouse view
+   flags SKUs that cannot cover the failures the models predict.
 
-This is a hackathon prototype, not a production deployment. Every piece below is a genuinely
-working, tested implementation &mdash; but running on **synthetic data** and a **deterministic
-agent pipeline** rather than production integrations, so it can be cloned and run in minutes
-with no external accounts or API keys.
+## The prototype (v2)
 
-| Submitted architecture | This prototype |
+A DCIM-style web app with five sections, all D3.js visualizations, sized for a 1440×900 laptop screen:
+
+| Section | What you see |
 |---|---|
-| Redfish/SNMP telemetry from real BMC/iDRAC/iLO | Synthetic telemetry generator with engineered pre-failure signatures ([`data/synthetic/generate_telemetry.py`](data/synthetic/generate_telemetry.py)) |
-| ServiceNow API ingestion of real tickets/RCAs | Synthetic ticket/RCA/manual/email corpus ([`data/synthetic/generate_knowledge_base.py`](data/synthetic/generate_knowledge_base.py)) |
-| Sentence-transformer embeddings + FAISS/Qdrant + cross-encoder re-rank | TF-IDF cosine similarity + BM25, weighted blend (same hybrid-retrieval *shape*, lighter dependency footprint) |
-| Neo4j fault knowledge graph | In-process `networkx` graph, same Component&rarr;Symptom&rarr;RootCause&rarr;Fix&rarr;Ticket schema |
-| Grounded LLM recommendation agent | Deterministic, templated recommendation pipeline &mdash; every step is still evidence-backed and cited, only the free-text generation step is templated instead of LLM-authored (no API key was available for this build) |
-| ServiceNow ticket creation / closed-loop learning | Not implemented in the prototype |
+| **Command Center** | 3D data-hall floor (5 rows × 20 racks, 8 server slots each) coloured by health / inlet temperature / power, with context beacons; rack elevation; KPI gauges; priority queue |
+| **Operations** | Rack radar (power × thermal × flagged servers × context for 100 racks), brushable parallel coordinates across 800 servers, facility power & PUE, 100-rack × 90-day thermal matrix, AI telemetry (model accuracy, drift, confidence, latency) |
+| **Maintenance** | Risk matrix (risk × criticality × work time × component × part status), failure forecast vs spares, ranked work queue, RCA copilot |
+| **Event Log** | 12-month radial incident clock, weekly incident stream, 7-day MELT event feed (BMC SEL, syslog, SNMP, BMS, security, config), searchable ticket history |
+| **Inventory** | Stock runway (on-hand vs reorder point vs predicted demand vs inbound), turnover vs cover, 12-month stock history, consumption stream, assets depending on each SKU |
 
-See [`docs/TECHNICAL_DOCUMENTATION.md`](docs/TECHNICAL_DOCUMENTATION.md) for the full
-architecture, module-by-module detail, and the upgrade path from each simplification back to
-the originally submitted design.
+Drill into any component for its cited action plan, SHAP drivers, telemetry and server context.
+
+### Data (all synthetic, clearly labelled)
+
+| | Scale |
+|---|---|
+| Floor | 100 racks · 800 servers · 4,000 monitored components (DIMM, disk, PSU, NIC, fan) |
+| Telemetry | 90 days at 6-hour cadence: component health channels + server metrics (CPU, memory, power, inlet/outlet/CPU temp, network throughput/latency/loss, disk IOPS/latency, failed logins) + facility PUE |
+| Events / logs | 14 days of BMC SEL, syslog, SNMP, BMS, security and config-change events |
+| Knowledge base | ~1,400 incidents over 12 months from 45 fault templates, ~1,900 documents (tickets, RCAs, manuals, emails) |
+| Inventory | 16 SKUs, 12-month replenishment simulation (issues, orders, receipts, backorders) |
+
+No real BMC, ServiceNow or warehouse data was available for the prototype. The recommendation step
+is deterministic and templated (no LLM API key); every step is still evidence-backed and cited.
+See [`docs/TECHNICAL_DOCUMENTATION.md`](docs/TECHNICAL_DOCUMENTATION.md) for the architecture and the
+upgrade path to real integrations.
 
 ## Quickstart
 
-Requires Python 3.10+ and Node 18+.
+Python 3.10+ and Node 18+.
 
 ```bash
-# from the rackiq/ repo root
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r backend/requirements.txt
+bash scripts/seed_all.sh                              # data + models + tests, ~1-2 min
+uvicorn backend.app.main:app --reload --port 8000     # API on :8000
 
-bash scripts/seed_all.sh          # generates data, trains models, runs tests
-uvicorn backend.app.main:app --reload --port 8000   # backend on :8000
-
-# in a second terminal
-cd frontend
-npm install
-npm run dev                       # frontend on :5173, proxies /api to :8000
+cd frontend && npm install && npm run dev             # UI on :5173 (proxies /api)
 ```
 
-Open http://localhost:5173 &mdash; the Risk Dashboard shows live predicted failure risk across
-384 monitored components; click **Investigate** on any alert to see the cited recommendation.
-The **Incident Copilot** tab is a free-text troubleshooting chat over the same knowledge base.
+## Hosted static demo
 
-## Repository layout
+Firebase Hosting's free tier serves static files only, so the hosted build reads a precomputed
+snapshot of every API response instead of a live backend (banner shown in-app). To rebuild it:
+
+```bash
+python3 scripts/export_static_demo.py                 # snapshot -> frontend/public/data/
+cd frontend && VITE_DEMO_MODE=true npm run build && cd ..
+firebase deploy --only hosting --project rackiq-copilot
+```
+
+## Layout
 
 ```
-rackiq/
-├── data/
-│   ├── synthetic/        telemetry + asset + failure-event + operational-context generator
-│   └── kb/                synthetic RCA/ticket/manual/email knowledge base generator
-├── backend/
-│   └── app/
-│       ├── ml/            feature engineering, LightGBM training (+ MLflow, SHAP), inference
-│       ├── knowledge/      hybrid retrieval (BM25 + TF-IDF) and the fault knowledge graph
-│       ├── agent/           deterministic, cited recommendation pipeline
-│       ├── data/            cached CSV/KB loaders shared by the API
-│       ├── schemas/         pydantic response models
-│       └── main.py          FastAPI app
-│   └── tests/              pytest suite (features, retrieval, agent, API)
-├── frontend/                Vite + React dashboard, asset detail, incident copilot chat
-├── docs/                   project summary, technical documentation, team pipeline, demo script
-└── scripts/seed_all.sh     one-command data generation + training + tests
+data/synthetic/   catalog + generators: telemetry, knowledge base, inventory
+data/kb/          incidents.csv, documents.jsonl, templates.csv
+data/inventory/   skus.csv, transactions.csv, stock_daily.csv
+backend/app/      ml/ (features, train, predict), knowledge/ (retrieval, graph),
+                  agent/ (recommendation), fleet.py (state + views), main.py (FastAPI)
+backend/tests/    pytest (features, retrieval, agent, API)
+frontend/src/     pages/ (5 sections + asset detail), charts/ (D3), components/, api/
+docs/             project summary, technical documentation, demo script, team pipeline
 ```
 
 ## Status
 
-Prototype-phase deliverables checklist (see [`docs/TEAM_PIPELINE.md`](docs/TEAM_PIPELINE.md)
-for the day-by-day plan and who owns what):
-
-- [x] Working prototype (this repo, running end-to-end)
-- [x] Source code repository (this repo)
-- [x] Technical documentation ([`docs/TECHNICAL_DOCUMENTATION.md`](docs/TECHNICAL_DOCUMENTATION.md))
-- [x] Project summary ([`docs/PROJECT_SUMMARY.md`](docs/PROJECT_SUMMARY.md))
-- [x] Demo video ([`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4), 42s; script at [`docs/DEMO_VIDEO_SCRIPT.md`](docs/DEMO_VIDEO_SCRIPT.md))
-- [x] Presentation deck (optional) &mdash; see `prototype_submission/rackiq_presentation.pptx` in the parent hackathon folder
-- [x] Hosted demo (optional) &mdash; https://rackiq-copilot.web.app (static snapshot build)
-
-## Redeploying the static demo (Firebase Hosting)
-
-```bash
-# 1. backend running locally with a fresh seed (see Quickstart above)
-python3 scripts/export_static_demo.py        # snapshots live API responses to frontend/public/data/
-cd frontend && VITE_DEMO_MODE=true npm run build && cd ..
-firebase deploy --only hosting --project rackiq-copilot
-```
+- [x] Working prototype (local, full live pipeline) and hosted demo
+- [x] Source code repository, technical documentation, project summary
+- [x] Demo video, presentation deck (in the hackathon submission folder)

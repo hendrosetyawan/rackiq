@@ -1,19 +1,13 @@
 """
-Hybrid retrieval over the RCA/ticket/manual/email knowledge base.
+Hybrid retrieval over the 12-month RCA / ticket / manual / email knowledge base.
 
-Combines:
-  - BM25 keyword search (rank_bm25) over document text
-  - TF-IDF cosine similarity as a lightweight local stand-in for a dense
-    sentence-embedding retriever (no external embedding API/model is used in
-    this prototype -- see docs/TECHNICAL_DOCUMENTATION.md "Upgrade path" for
-    swapping in sentence-transformers + FAISS/Qdrant)
-  - A historical success-rate boost (documents whose fix_action is recorded
-    as having actually resolved the issue rank above ones that didn't)
-
-Results are blended into a single re-ranked score, approximating the
-"hybrid vector + BM25 + cross-encoder re-rank" pipeline described in the
-submitted architecture at a scale and dependency footprint appropriate for
-a hackathon prototype.
+Blends three signals into one re-ranked score:
+  - BM25 keyword relevance (rank_bm25) over document text + symptom tags
+  - TF-IDF cosine similarity, a lightweight local stand-in for a dense
+    sentence-embedding retriever (see docs/TECHNICAL_DOCUMENTATION.md
+    "Upgrade path" for sentence-transformers + FAISS/Qdrant)
+  - the fix's empirical durable-fix rate across the incident log (how often
+    that fix actually held), so proven fixes outrank ones that recurred
 """
 from __future__ import annotations
 
@@ -29,7 +23,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KB_PATH = REPO_ROOT / "data" / "kb" / "documents.jsonl"
-
 _TOKEN_RE = re.compile(r"[a-z0-9_]+")
 
 
@@ -48,79 +41,44 @@ class RetrievalResult:
 
 
 class HybridRetriever:
-    def __init__(self, documents: list[dict]):
+    def __init__(self, documents: list[dict], durable_rate: dict[str, float] | None = None):
         self.documents = documents
-        self.texts = [d["text"] for d in documents]
         self.doc_by_id = {d["doc_id"]: d for d in documents}
-
-        tokenized = [_tokenize(t) for t in self.texts]
-        self.bm25 = BM25Okapi(tokenized)
-
-        self.vectorizer = TfidfVectorizer(stop_words="english", max_features=4000)
-        self.tfidf_matrix = self.vectorizer.fit_transform(self.texts)
+        self.components = np.array([d["component"] for d in documents])
+        index_text = [d["text"] + " " + " ".join(d["symptom_tags"]) for d in documents]
+        self.bm25 = BM25Okapi([_tokenize(t) for t in index_text])
+        self.vectorizer = TfidfVectorizer(stop_words="english", max_features=8000, ngram_range=(1, 2), sublinear_tf=True)
+        self.tfidf = self.vectorizer.fit_transform(index_text)
+        rates = durable_rate or {}
+        self.success = np.array([rates.get(d.get("template_id"), 0.85 if d.get("success") else 0.3) for d in documents])
 
     @classmethod
-    def from_jsonl(cls, path: Path = KB_PATH) -> "HybridRetriever":
-        docs = []
+    def from_jsonl(cls, path: Path = KB_PATH, durable_rate: dict[str, float] | None = None) -> "HybridRetriever":
         with open(path) as f:
-            for line in f:
-                docs.append(json.loads(line))
-        return cls(docs)
+            return cls([json.loads(line) for line in f], durable_rate)
 
-    def _normalize(self, scores: np.ndarray) -> np.ndarray:
-        if scores.max() - scores.min() < 1e-9:
-            return np.zeros_like(scores)
-        return (scores - scores.min()) / (scores.max() - scores.min())
+    @staticmethod
+    def _norm(x: np.ndarray) -> np.ndarray:
+        span = x.max() - x.min()
+        return np.zeros_like(x) if span < 1e-9 else (x - x.min()) / span
 
-    def search(
-        self,
-        query: str,
-        component: str | None = None,
-        symptom_tags: list[str] | None = None,
-        top_k: int = 5,
-        bm25_weight: float = 0.4,
-        vector_weight: float = 0.4,
-        success_weight: float = 0.2,
-    ) -> list[RetrievalResult]:
-        query_terms = _tokenize(query)
-        if symptom_tags:
-            query_terms += [t for tag in symptom_tags for t in _tokenize(tag)]
+    def search(self, query: str, component: str | None = None, symptom_tags: list[str] | None = None, top_k: int = 5,
+               bm25_weight: float = 0.4, vector_weight: float = 0.4, success_weight: float = 0.2) -> list[RetrievalResult]:
+        tags = symptom_tags or []
+        terms = _tokenize(query) + [t for tag in tags for t in _tokenize(tag)] + tags
+        bm = self._norm(np.array(self.bm25.get_scores(terms)))
+        vec = self._norm(cosine_similarity(self.vectorizer.transform([query + " " + " ".join(tags)]), self.tfidf)[0])
+        boost = self.success - 0.5
+        blended = bm25_weight * bm + vector_weight * vec + success_weight * boost
 
-        bm25_scores = np.array(self.bm25.get_scores(query_terms))
-
-        query_text = query + " " + " ".join(symptom_tags or [])
-        q_vec = self.vectorizer.transform([query_text])
-        vector_scores = cosine_similarity(q_vec, self.tfidf_matrix)[0]
-
-        bm25_norm = self._normalize(bm25_scores)
-        vector_norm = self._normalize(vector_scores)
-        success_boost = np.array(
-            [0.15 if d.get("success") else -0.05 for d in self.documents]
-        )
-
-        blended = (
-            bm25_weight * bm25_norm + vector_weight * vector_norm + success_weight * success_boost
-        )
-
-        candidate_idx = list(range(len(self.documents)))
+        idx = np.arange(len(self.documents))
         if component:
-            candidate_idx = [i for i in candidate_idx if self.documents[i]["component"] == component]
-        if not candidate_idx:
-            candidate_idx = list(range(len(self.documents)))
-
-        ranked = sorted(candidate_idx, key=lambda i: blended[i], reverse=True)[:top_k]
-
-        return [
-            RetrievalResult(
-                doc_id=self.documents[i]["doc_id"],
-                score=round(float(blended[i]), 4),
-                bm25_score=round(float(bm25_norm[i]), 4),
-                vector_score=round(float(vector_norm[i]), 4),
-                success_boost=float(success_boost[i]),
-                doc=self.documents[i],
-            )
-            for i in ranked
-        ]
+            sel = idx[self.components == component]
+            idx = sel if len(sel) else idx
+        ranked = idx[np.argsort(-blended[idx])][:top_k]
+        return [RetrievalResult(doc_id=self.documents[i]["doc_id"], score=round(float(blended[i]), 4),
+                                bm25_score=round(float(bm[i]), 4), vector_score=round(float(vec[i]), 4),
+                                success_boost=round(float(boost[i]), 3), doc=self.documents[i]) for i in ranked]
 
     def get_document(self, doc_id: str) -> dict | None:
         return self.doc_by_id.get(doc_id)

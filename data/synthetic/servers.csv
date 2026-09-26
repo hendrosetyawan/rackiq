@@ -1,0 +1,801 @@
+server_id,rack_id,row,pos,slot,vendor,model,workload,tier,criticality,serial
+A01-S1,A01,A,1,1,HPE,ProLiant DL380 Gen11,web,std,1,SN18032585
+A01-S2,A01,A,1,2,HPE,ProLiant DL380 Gen11,web,std,1,SN79656044
+A01-S3,A01,A,1,3,HPE,ProLiant DL380 Gen11,web,std,1,SN68911436
+A01-S4,A01,A,1,4,HPE,ProLiant DL380 Gen11,web,std,1,SN49499059
+A01-S5,A01,A,1,5,HPE,ProLiant DL380 Gen11,web,std,1,SN48971371
+A01-S6,A01,A,1,6,HPE,ProLiant DL380 Gen11,web,std,1,SN87273812
+A01-S7,A01,A,1,7,HPE,ProLiant DL380 Gen11,web,std,1,SN17735107
+A01-S8,A01,A,1,8,HPE,ProLiant DL380 Gen11,web,std,1,SN72763122
+A02-S1,A02,A,2,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN28132258
+A02-S2,A02,A,2,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN18475961
+A02-S3,A02,A,2,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN57383108
+A02-S4,A02,A,2,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN97806011
+A02-S5,A02,A,2,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN76217713
+A02-S6,A02,A,2,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN78502573
+A02-S7,A02,A,2,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN74572954
+A02-S8,A02,A,2,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN80745787
+A03-S1,A03,A,3,1,Dell,PowerEdge R760,web,std,1,SN56190391
+A03-S2,A03,A,3,2,Dell,PowerEdge R760,web,std,1,SN21530226
+A03-S3,A03,A,3,3,Dell,PowerEdge R760,web,std,1,SN85577340
+A03-S4,A03,A,3,4,Dell,PowerEdge R760,web,std,1,SN50534734
+A03-S5,A03,A,3,5,Dell,PowerEdge R760,web,std,1,SN55031672
+A03-S6,A03,A,3,6,Dell,PowerEdge R760,web,std,1,SN43371822
+A03-S7,A03,A,3,7,Dell,PowerEdge R760,web,std,1,SN26429467
+A03-S8,A03,A,3,8,Dell,PowerEdge R760,web,std,1,SN93408848
+A04-S1,A04,A,4,1,HPE,ProLiant DL380 Gen11,web,std,1,SN80341071
+A04-S2,A04,A,4,2,HPE,ProLiant DL380 Gen11,web,std,1,SN67947860
+A04-S3,A04,A,4,3,HPE,ProLiant DL380 Gen11,web,std,1,SN46217292
+A04-S4,A04,A,4,4,HPE,ProLiant DL380 Gen11,web,std,1,SN84048545
+A04-S5,A04,A,4,5,HPE,ProLiant DL380 Gen11,web,std,1,SN59088620
+A04-S6,A04,A,4,6,HPE,ProLiant DL380 Gen11,web,std,1,SN49907277
+A04-S7,A04,A,4,7,HPE,ProLiant DL380 Gen11,web,std,1,SN50541359
+A04-S8,A04,A,4,8,HPE,ProLiant DL380 Gen11,web,std,1,SN30451484
+A05-S1,A05,A,5,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN18292232
+A05-S2,A05,A,5,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN59912630
+A05-S3,A05,A,5,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN89910085
+A05-S4,A05,A,5,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN15743553
+A05-S5,A05,A,5,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN87246216
+A05-S6,A05,A,5,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN84486805
+A05-S7,A05,A,5,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN34908372
+A05-S8,A05,A,5,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN66849795
+A06-S1,A06,A,6,1,Dell,PowerEdge R760,web,std,1,SN24870617
+A06-S2,A06,A,6,2,Dell,PowerEdge R760,web,std,1,SN78227896
+A06-S3,A06,A,6,3,Dell,PowerEdge R760,web,std,1,SN73047066
+A06-S4,A06,A,6,4,Dell,PowerEdge R760,web,std,1,SN41907337
+A06-S5,A06,A,6,5,Dell,PowerEdge R760,web,std,1,SN16112800
+A06-S6,A06,A,6,6,Dell,PowerEdge R760,web,std,1,SN97362822
+A06-S7,A06,A,6,7,Dell,PowerEdge R760,web,std,1,SN50111873
+A06-S8,A06,A,6,8,Dell,PowerEdge R760,web,std,1,SN90380900
+A07-S1,A07,A,7,1,HPE,ProLiant DL380 Gen11,web,std,1,SN71012711
+A07-S2,A07,A,7,2,HPE,ProLiant DL380 Gen11,web,std,1,SN80054514
+A07-S3,A07,A,7,3,HPE,ProLiant DL380 Gen11,web,std,1,SN78390949
+A07-S4,A07,A,7,4,HPE,ProLiant DL380 Gen11,web,std,1,SN27517483
+A07-S5,A07,A,7,5,HPE,ProLiant DL380 Gen11,web,std,1,SN42751542
+A07-S6,A07,A,7,6,HPE,ProLiant DL380 Gen11,web,std,1,SN52004890
+A07-S7,A07,A,7,7,HPE,ProLiant DL380 Gen11,web,std,1,SN54801238
+A07-S8,A07,A,7,8,HPE,ProLiant DL380 Gen11,web,std,1,SN13942338
+A08-S1,A08,A,8,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN59191255
+A08-S2,A08,A,8,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN23886054
+A08-S3,A08,A,8,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN76903831
+A08-S4,A08,A,8,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN71474405
+A08-S5,A08,A,8,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN93027505
+A08-S6,A08,A,8,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN42997839
+A08-S7,A08,A,8,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN97075875
+A08-S8,A08,A,8,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN46976531
+A09-S1,A09,A,9,1,Dell,PowerEdge R760,web,std,1,SN39324282
+A09-S2,A09,A,9,2,Dell,PowerEdge R760,web,std,1,SN91498218
+A09-S3,A09,A,9,3,Dell,PowerEdge R760,web,std,1,SN43341373
+A09-S4,A09,A,9,4,Dell,PowerEdge R760,web,std,1,SN16870886
+A09-S5,A09,A,9,5,Dell,PowerEdge R760,web,std,1,SN81611197
+A09-S6,A09,A,9,6,Dell,PowerEdge R760,web,std,1,SN27052422
+A09-S7,A09,A,9,7,Dell,PowerEdge R760,web,std,1,SN51664651
+A09-S8,A09,A,9,8,Dell,PowerEdge R760,web,std,1,SN21692935
+A10-S1,A10,A,10,1,HPE,ProLiant DL380 Gen11,web,std,1,SN71783038
+A10-S2,A10,A,10,2,HPE,ProLiant DL380 Gen11,web,std,1,SN52813443
+A10-S3,A10,A,10,3,HPE,ProLiant DL380 Gen11,web,std,1,SN30421841
+A10-S4,A10,A,10,4,HPE,ProLiant DL380 Gen11,web,std,1,SN60804990
+A10-S5,A10,A,10,5,HPE,ProLiant DL380 Gen11,web,std,1,SN70283259
+A10-S6,A10,A,10,6,HPE,ProLiant DL380 Gen11,web,std,1,SN94627548
+A10-S7,A10,A,10,7,HPE,ProLiant DL380 Gen11,web,std,1,SN49343672
+A10-S8,A10,A,10,8,HPE,ProLiant DL380 Gen11,web,std,1,SN24461934
+A11-S1,A11,A,11,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN84941037
+A11-S2,A11,A,11,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN66678787
+A11-S3,A11,A,11,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN73023859
+A11-S4,A11,A,11,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN18750397
+A11-S5,A11,A,11,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN38112997
+A11-S6,A11,A,11,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN79105952
+A11-S7,A11,A,11,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN84903382
+A11-S8,A11,A,11,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN49169500
+A12-S1,A12,A,12,1,Dell,PowerEdge R760,web,std,1,SN82428792
+A12-S2,A12,A,12,2,Dell,PowerEdge R760,web,std,1,SN85752268
+A12-S3,A12,A,12,3,Dell,PowerEdge R760,web,std,1,SN44873054
+A12-S4,A12,A,12,4,Dell,PowerEdge R760,web,std,1,SN90827886
+A12-S5,A12,A,12,5,Dell,PowerEdge R760,web,std,1,SN35949529
+A12-S6,A12,A,12,6,Dell,PowerEdge R760,web,std,1,SN31560200
+A12-S7,A12,A,12,7,Dell,PowerEdge R760,web,std,1,SN71424595
+A12-S8,A12,A,12,8,Dell,PowerEdge R760,web,std,1,SN67308564
+A13-S1,A13,A,13,1,HPE,ProLiant DL380 Gen11,web,std,1,SN22577723
+A13-S2,A13,A,13,2,HPE,ProLiant DL380 Gen11,web,std,1,SN84946307
+A13-S3,A13,A,13,3,HPE,ProLiant DL380 Gen11,web,std,1,SN27991738
+A13-S4,A13,A,13,4,HPE,ProLiant DL380 Gen11,web,std,1,SN82440920
+A13-S5,A13,A,13,5,HPE,ProLiant DL380 Gen11,web,std,1,SN10662604
+A13-S6,A13,A,13,6,HPE,ProLiant DL380 Gen11,web,std,1,SN81715832
+A13-S7,A13,A,13,7,HPE,ProLiant DL380 Gen11,web,std,1,SN80823193
+A13-S8,A13,A,13,8,HPE,ProLiant DL380 Gen11,web,std,1,SN80232788
+A14-S1,A14,A,14,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN69836577
+A14-S2,A14,A,14,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN52441042
+A14-S3,A14,A,14,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN73464884
+A14-S4,A14,A,14,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN34940946
+A14-S5,A14,A,14,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN80265612
+A14-S6,A14,A,14,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN60008226
+A14-S7,A14,A,14,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN51302419
+A14-S8,A14,A,14,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN55504562
+A15-S1,A15,A,15,1,Dell,PowerEdge R760,web,std,1,SN61186707
+A15-S2,A15,A,15,2,Dell,PowerEdge R760,web,std,1,SN13353608
+A15-S3,A15,A,15,3,Dell,PowerEdge R760,web,std,1,SN22581729
+A15-S4,A15,A,15,4,Dell,PowerEdge R760,web,std,1,SN32093304
+A15-S5,A15,A,15,5,Dell,PowerEdge R760,web,std,1,SN20307706
+A15-S6,A15,A,15,6,Dell,PowerEdge R760,web,std,1,SN49565221
+A15-S7,A15,A,15,7,Dell,PowerEdge R760,web,std,1,SN70156266
+A15-S8,A15,A,15,8,Dell,PowerEdge R760,web,std,1,SN68898597
+A16-S1,A16,A,16,1,HPE,ProLiant DL380 Gen11,web,std,1,SN52398658
+A16-S2,A16,A,16,2,HPE,ProLiant DL380 Gen11,web,std,1,SN86957200
+A16-S3,A16,A,16,3,HPE,ProLiant DL380 Gen11,web,std,1,SN60871249
+A16-S4,A16,A,16,4,HPE,ProLiant DL380 Gen11,web,std,1,SN17127766
+A16-S5,A16,A,16,5,HPE,ProLiant DL380 Gen11,web,std,1,SN78849897
+A16-S6,A16,A,16,6,HPE,ProLiant DL380 Gen11,web,std,1,SN61714056
+A16-S7,A16,A,16,7,HPE,ProLiant DL380 Gen11,web,std,1,SN67124648
+A16-S8,A16,A,16,8,HPE,ProLiant DL380 Gen11,web,std,1,SN60883599
+A17-S1,A17,A,17,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN59822146
+A17-S2,A17,A,17,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN18150978
+A17-S3,A17,A,17,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN60328644
+A17-S4,A17,A,17,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN81542135
+A17-S5,A17,A,17,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN37355508
+A17-S6,A17,A,17,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN64255441
+A17-S7,A17,A,17,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN12773605
+A17-S8,A17,A,17,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN41274928
+A18-S1,A18,A,18,1,Dell,PowerEdge R760,web,std,1,SN49304565
+A18-S2,A18,A,18,2,Dell,PowerEdge R760,web,std,1,SN98446455
+A18-S3,A18,A,18,3,Dell,PowerEdge R760,web,std,1,SN29312620
+A18-S4,A18,A,18,4,Dell,PowerEdge R760,web,std,1,SN34889349
+A18-S5,A18,A,18,5,Dell,PowerEdge R760,web,std,1,SN46767577
+A18-S6,A18,A,18,6,Dell,PowerEdge R760,web,std,1,SN99339905
+A18-S7,A18,A,18,7,Dell,PowerEdge R760,web,std,1,SN86806276
+A18-S8,A18,A,18,8,Dell,PowerEdge R760,web,std,1,SN13122366
+A19-S1,A19,A,19,1,HPE,ProLiant DL380 Gen11,web,std,1,SN31054553
+A19-S2,A19,A,19,2,HPE,ProLiant DL380 Gen11,web,std,1,SN83950700
+A19-S3,A19,A,19,3,HPE,ProLiant DL380 Gen11,web,std,1,SN15247246
+A19-S4,A19,A,19,4,HPE,ProLiant DL380 Gen11,web,std,1,SN87010376
+A19-S5,A19,A,19,5,HPE,ProLiant DL380 Gen11,web,std,1,SN35324550
+A19-S6,A19,A,19,6,HPE,ProLiant DL380 Gen11,web,std,1,SN92588691
+A19-S7,A19,A,19,7,HPE,ProLiant DL380 Gen11,web,std,1,SN36423438
+A19-S8,A19,A,19,8,HPE,ProLiant DL380 Gen11,web,std,1,SN49088512
+A20-S1,A20,A,20,1,Lenovo,ThinkSystem SR650 V3,web,std,1,SN69572486
+A20-S2,A20,A,20,2,Lenovo,ThinkSystem SR650 V3,web,std,1,SN21365266
+A20-S3,A20,A,20,3,Lenovo,ThinkSystem SR650 V3,web,std,1,SN60132893
+A20-S4,A20,A,20,4,Lenovo,ThinkSystem SR650 V3,web,std,1,SN55451394
+A20-S5,A20,A,20,5,Lenovo,ThinkSystem SR650 V3,web,std,1,SN80550838
+A20-S6,A20,A,20,6,Lenovo,ThinkSystem SR650 V3,web,std,1,SN99649621
+A20-S7,A20,A,20,7,Lenovo,ThinkSystem SR650 V3,web,std,1,SN69788218
+A20-S8,A20,A,20,8,Lenovo,ThinkSystem SR650 V3,web,std,1,SN46826779
+B01-S1,B01,B,1,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN46574817
+B01-S2,B01,B,1,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN47616287
+B01-S3,B01,B,1,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN83261834
+B01-S4,B01,B,1,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN38909415
+B01-S5,B01,B,1,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN25027562
+B01-S6,B01,B,1,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN40086229
+B01-S7,B01,B,1,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN12044086
+B01-S8,B01,B,1,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN19552832
+B02-S1,B02,B,2,1,Dell,PowerEdge R760,virtualization,std,2,SN18104307
+B02-S2,B02,B,2,2,Dell,PowerEdge R760,virtualization,std,2,SN79439717
+B02-S3,B02,B,2,3,Dell,PowerEdge R760,virtualization,std,2,SN75012341
+B02-S4,B02,B,2,4,Dell,PowerEdge R760,virtualization,std,2,SN72709371
+B02-S5,B02,B,2,5,Dell,PowerEdge R760,virtualization,std,2,SN51568950
+B02-S6,B02,B,2,6,Dell,PowerEdge R760,virtualization,std,2,SN74535266
+B02-S7,B02,B,2,7,Dell,PowerEdge R760,virtualization,std,2,SN24514460
+B02-S8,B02,B,2,8,Dell,PowerEdge R760,virtualization,std,2,SN91055951
+B03-S1,B03,B,3,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN55094029
+B03-S2,B03,B,3,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN94424625
+B03-S3,B03,B,3,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN23708089
+B03-S4,B03,B,3,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN54759706
+B03-S5,B03,B,3,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN72668833
+B03-S6,B03,B,3,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN54606328
+B03-S7,B03,B,3,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN50154064
+B03-S8,B03,B,3,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN24959268
+B04-S1,B04,B,4,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN44291910
+B04-S2,B04,B,4,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN31488963
+B04-S3,B04,B,4,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN37136088
+B04-S4,B04,B,4,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN71533059
+B04-S5,B04,B,4,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN66725433
+B04-S6,B04,B,4,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN64647678
+B04-S7,B04,B,4,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN42563134
+B04-S8,B04,B,4,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN96372332
+B05-S1,B05,B,5,1,Dell,PowerEdge R760,virtualization,std,2,SN17888492
+B05-S2,B05,B,5,2,Dell,PowerEdge R760,virtualization,std,2,SN40833169
+B05-S3,B05,B,5,3,Dell,PowerEdge R760,virtualization,std,2,SN20620531
+B05-S4,B05,B,5,4,Dell,PowerEdge R760,virtualization,std,2,SN40504942
+B05-S5,B05,B,5,5,Dell,PowerEdge R760,virtualization,std,2,SN96570789
+B05-S6,B05,B,5,6,Dell,PowerEdge R760,virtualization,std,2,SN42963718
+B05-S7,B05,B,5,7,Dell,PowerEdge R760,virtualization,std,2,SN91772262
+B05-S8,B05,B,5,8,Dell,PowerEdge R760,virtualization,std,2,SN54555909
+B06-S1,B06,B,6,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN72973642
+B06-S2,B06,B,6,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN51167573
+B06-S3,B06,B,6,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN33928296
+B06-S4,B06,B,6,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN78780650
+B06-S5,B06,B,6,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN97225873
+B06-S6,B06,B,6,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN33717237
+B06-S7,B06,B,6,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN80087581
+B06-S8,B06,B,6,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN33502600
+B07-S1,B07,B,7,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN74520117
+B07-S2,B07,B,7,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN81010590
+B07-S3,B07,B,7,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN50442535
+B07-S4,B07,B,7,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN76322763
+B07-S5,B07,B,7,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN34501740
+B07-S6,B07,B,7,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN17132816
+B07-S7,B07,B,7,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN18675186
+B07-S8,B07,B,7,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN50232134
+B08-S1,B08,B,8,1,Dell,PowerEdge R760,virtualization,std,2,SN91234215
+B08-S2,B08,B,8,2,Dell,PowerEdge R760,virtualization,std,2,SN21481916
+B08-S3,B08,B,8,3,Dell,PowerEdge R760,virtualization,std,2,SN51019866
+B08-S4,B08,B,8,4,Dell,PowerEdge R760,virtualization,std,2,SN73362885
+B08-S5,B08,B,8,5,Dell,PowerEdge R760,virtualization,std,2,SN28212702
+B08-S6,B08,B,8,6,Dell,PowerEdge R760,virtualization,std,2,SN74945475
+B08-S7,B08,B,8,7,Dell,PowerEdge R760,virtualization,std,2,SN37536096
+B08-S8,B08,B,8,8,Dell,PowerEdge R760,virtualization,std,2,SN82779467
+B09-S1,B09,B,9,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN62129761
+B09-S2,B09,B,9,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN59221654
+B09-S3,B09,B,9,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN25909550
+B09-S4,B09,B,9,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN51688531
+B09-S5,B09,B,9,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN87095285
+B09-S6,B09,B,9,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN11757159
+B09-S7,B09,B,9,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN78266757
+B09-S8,B09,B,9,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN54348615
+B10-S1,B10,B,10,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN74751666
+B10-S2,B10,B,10,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN69696821
+B10-S3,B10,B,10,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN48888373
+B10-S4,B10,B,10,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN37780048
+B10-S5,B10,B,10,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN66457795
+B10-S6,B10,B,10,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN22620184
+B10-S7,B10,B,10,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN62568817
+B10-S8,B10,B,10,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN18522522
+B11-S1,B11,B,11,1,Dell,PowerEdge R760,virtualization,std,2,SN68486194
+B11-S2,B11,B,11,2,Dell,PowerEdge R760,virtualization,std,2,SN66587075
+B11-S3,B11,B,11,3,Dell,PowerEdge R760,virtualization,std,2,SN17599988
+B11-S4,B11,B,11,4,Dell,PowerEdge R760,virtualization,std,2,SN78173910
+B11-S5,B11,B,11,5,Dell,PowerEdge R760,virtualization,std,2,SN47422666
+B11-S6,B11,B,11,6,Dell,PowerEdge R760,virtualization,std,2,SN80819781
+B11-S7,B11,B,11,7,Dell,PowerEdge R760,virtualization,std,2,SN13745275
+B11-S8,B11,B,11,8,Dell,PowerEdge R760,virtualization,std,2,SN26151084
+B12-S1,B12,B,12,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN54459173
+B12-S2,B12,B,12,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN26940265
+B12-S3,B12,B,12,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN39687509
+B12-S4,B12,B,12,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN69453913
+B12-S5,B12,B,12,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN23007176
+B12-S6,B12,B,12,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN70993264
+B12-S7,B12,B,12,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN19306267
+B12-S8,B12,B,12,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN25766666
+B13-S1,B13,B,13,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN62888011
+B13-S2,B13,B,13,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN81413491
+B13-S3,B13,B,13,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN25353367
+B13-S4,B13,B,13,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN36999351
+B13-S5,B13,B,13,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN93260810
+B13-S6,B13,B,13,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN99071532
+B13-S7,B13,B,13,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN62295502
+B13-S8,B13,B,13,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN50233433
+B14-S1,B14,B,14,1,Dell,PowerEdge R760,virtualization,std,2,SN41218282
+B14-S2,B14,B,14,2,Dell,PowerEdge R760,virtualization,std,2,SN65120672
+B14-S3,B14,B,14,3,Dell,PowerEdge R760,virtualization,std,2,SN63182394
+B14-S4,B14,B,14,4,Dell,PowerEdge R760,virtualization,std,2,SN36527773
+B14-S5,B14,B,14,5,Dell,PowerEdge R760,virtualization,std,2,SN12052348
+B14-S6,B14,B,14,6,Dell,PowerEdge R760,virtualization,std,2,SN23634847
+B14-S7,B14,B,14,7,Dell,PowerEdge R760,virtualization,std,2,SN96270329
+B14-S8,B14,B,14,8,Dell,PowerEdge R760,virtualization,std,2,SN47633942
+B15-S1,B15,B,15,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN53407309
+B15-S2,B15,B,15,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN52039679
+B15-S3,B15,B,15,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN80446170
+B15-S4,B15,B,15,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN15846090
+B15-S5,B15,B,15,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN17445699
+B15-S6,B15,B,15,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN34826252
+B15-S7,B15,B,15,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN53799249
+B15-S8,B15,B,15,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN70401163
+B16-S1,B16,B,16,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN54163629
+B16-S2,B16,B,16,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN49705126
+B16-S3,B16,B,16,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN94404380
+B16-S4,B16,B,16,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN24491704
+B16-S5,B16,B,16,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN61455524
+B16-S6,B16,B,16,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN58802020
+B16-S7,B16,B,16,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN52614046
+B16-S8,B16,B,16,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN82683769
+B17-S1,B17,B,17,1,Dell,PowerEdge R760,virtualization,std,2,SN34027809
+B17-S2,B17,B,17,2,Dell,PowerEdge R760,virtualization,std,2,SN95839557
+B17-S3,B17,B,17,3,Dell,PowerEdge R760,virtualization,std,2,SN39841209
+B17-S4,B17,B,17,4,Dell,PowerEdge R760,virtualization,std,2,SN59050403
+B17-S5,B17,B,17,5,Dell,PowerEdge R760,virtualization,std,2,SN56860516
+B17-S6,B17,B,17,6,Dell,PowerEdge R760,virtualization,std,2,SN86480010
+B17-S7,B17,B,17,7,Dell,PowerEdge R760,virtualization,std,2,SN49502031
+B17-S8,B17,B,17,8,Dell,PowerEdge R760,virtualization,std,2,SN35610306
+B18-S1,B18,B,18,1,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN11945087
+B18-S2,B18,B,18,2,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN42731042
+B18-S3,B18,B,18,3,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN84366273
+B18-S4,B18,B,18,4,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN10892457
+B18-S5,B18,B,18,5,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN90654469
+B18-S6,B18,B,18,6,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN58854438
+B18-S7,B18,B,18,7,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN22622417
+B18-S8,B18,B,18,8,HPE,ProLiant DL380 Gen11,virtualization,std,2,SN37196139
+B19-S1,B19,B,19,1,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN59863252
+B19-S2,B19,B,19,2,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN38412295
+B19-S3,B19,B,19,3,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN19771816
+B19-S4,B19,B,19,4,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN69938999
+B19-S5,B19,B,19,5,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN70501608
+B19-S6,B19,B,19,6,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN20698682
+B19-S7,B19,B,19,7,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN35311040
+B19-S8,B19,B,19,8,Lenovo,ThinkSystem SR650 V3,virtualization,std,2,SN31948592
+B20-S1,B20,B,20,1,Dell,PowerEdge R760,virtualization,std,2,SN69348037
+B20-S2,B20,B,20,2,Dell,PowerEdge R760,virtualization,std,2,SN75726602
+B20-S3,B20,B,20,3,Dell,PowerEdge R760,virtualization,std,2,SN75429515
+B20-S4,B20,B,20,4,Dell,PowerEdge R760,virtualization,std,2,SN94488511
+B20-S5,B20,B,20,5,Dell,PowerEdge R760,virtualization,std,2,SN79178274
+B20-S6,B20,B,20,6,Dell,PowerEdge R760,virtualization,std,2,SN38861149
+B20-S7,B20,B,20,7,Dell,PowerEdge R760,virtualization,std,2,SN19696685
+B20-S8,B20,B,20,8,Dell,PowerEdge R760,virtualization,std,2,SN65317854
+C01-S1,C01,C,1,1,Dell,PowerEdge R760,database,std,3,SN92441066
+C01-S2,C01,C,1,2,Dell,PowerEdge R760,database,std,3,SN97763978
+C01-S3,C01,C,1,3,Dell,PowerEdge R760,database,std,3,SN30719259
+C01-S4,C01,C,1,4,Dell,PowerEdge R760,database,std,3,SN31280989
+C01-S5,C01,C,1,5,Dell,PowerEdge R760,database,std,3,SN13367130
+C01-S6,C01,C,1,6,Dell,PowerEdge R760,database,std,3,SN22713593
+C01-S7,C01,C,1,7,Dell,PowerEdge R760,database,std,3,SN59936722
+C01-S8,C01,C,1,8,Dell,PowerEdge R760,database,std,3,SN59212295
+C02-S1,C02,C,2,1,HPE,ProLiant DL380 Gen11,database,std,3,SN43383005
+C02-S2,C02,C,2,2,HPE,ProLiant DL380 Gen11,database,std,3,SN37895989
+C02-S3,C02,C,2,3,HPE,ProLiant DL380 Gen11,database,std,3,SN84681076
+C02-S4,C02,C,2,4,HPE,ProLiant DL380 Gen11,database,std,3,SN51403053
+C02-S5,C02,C,2,5,HPE,ProLiant DL380 Gen11,database,std,3,SN82742632
+C02-S6,C02,C,2,6,HPE,ProLiant DL380 Gen11,database,std,3,SN96689068
+C02-S7,C02,C,2,7,HPE,ProLiant DL380 Gen11,database,std,3,SN38542500
+C02-S8,C02,C,2,8,HPE,ProLiant DL380 Gen11,database,std,3,SN28246448
+C03-S1,C03,C,3,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN95760945
+C03-S2,C03,C,3,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN67134797
+C03-S3,C03,C,3,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN36182605
+C03-S4,C03,C,3,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN65967399
+C03-S5,C03,C,3,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN56355141
+C03-S6,C03,C,3,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN91497897
+C03-S7,C03,C,3,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN33036858
+C03-S8,C03,C,3,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN99224452
+C04-S1,C04,C,4,1,Dell,PowerEdge R760,database,std,3,SN94243921
+C04-S2,C04,C,4,2,Dell,PowerEdge R760,database,std,3,SN26263179
+C04-S3,C04,C,4,3,Dell,PowerEdge R760,database,std,3,SN24814703
+C04-S4,C04,C,4,4,Dell,PowerEdge R760,database,std,3,SN57984114
+C04-S5,C04,C,4,5,Dell,PowerEdge R760,database,std,3,SN14041955
+C04-S6,C04,C,4,6,Dell,PowerEdge R760,database,std,3,SN36891816
+C04-S7,C04,C,4,7,Dell,PowerEdge R760,database,std,3,SN49158735
+C04-S8,C04,C,4,8,Dell,PowerEdge R760,database,std,3,SN97243597
+C05-S1,C05,C,5,1,HPE,ProLiant DL380 Gen11,database,std,3,SN99313800
+C05-S2,C05,C,5,2,HPE,ProLiant DL380 Gen11,database,std,3,SN23638594
+C05-S3,C05,C,5,3,HPE,ProLiant DL380 Gen11,database,std,3,SN90250953
+C05-S4,C05,C,5,4,HPE,ProLiant DL380 Gen11,database,std,3,SN18183594
+C05-S5,C05,C,5,5,HPE,ProLiant DL380 Gen11,database,std,3,SN77374721
+C05-S6,C05,C,5,6,HPE,ProLiant DL380 Gen11,database,std,3,SN86107843
+C05-S7,C05,C,5,7,HPE,ProLiant DL380 Gen11,database,std,3,SN90171324
+C05-S8,C05,C,5,8,HPE,ProLiant DL380 Gen11,database,std,3,SN30107615
+C06-S1,C06,C,6,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN90410197
+C06-S2,C06,C,6,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN20438281
+C06-S3,C06,C,6,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN56697252
+C06-S4,C06,C,6,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN52259076
+C06-S5,C06,C,6,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN38433614
+C06-S6,C06,C,6,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN11990275
+C06-S7,C06,C,6,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN79481118
+C06-S8,C06,C,6,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN40202528
+C07-S1,C07,C,7,1,Dell,PowerEdge R760,database,std,3,SN69549513
+C07-S2,C07,C,7,2,Dell,PowerEdge R760,database,std,3,SN46919793
+C07-S3,C07,C,7,3,Dell,PowerEdge R760,database,std,3,SN43629195
+C07-S4,C07,C,7,4,Dell,PowerEdge R760,database,std,3,SN89766632
+C07-S5,C07,C,7,5,Dell,PowerEdge R760,database,std,3,SN18502000
+C07-S6,C07,C,7,6,Dell,PowerEdge R760,database,std,3,SN76295562
+C07-S7,C07,C,7,7,Dell,PowerEdge R760,database,std,3,SN44199230
+C07-S8,C07,C,7,8,Dell,PowerEdge R760,database,std,3,SN33621446
+C08-S1,C08,C,8,1,HPE,ProLiant DL380 Gen11,database,std,3,SN10477636
+C08-S2,C08,C,8,2,HPE,ProLiant DL380 Gen11,database,std,3,SN94313183
+C08-S3,C08,C,8,3,HPE,ProLiant DL380 Gen11,database,std,3,SN95295831
+C08-S4,C08,C,8,4,HPE,ProLiant DL380 Gen11,database,std,3,SN31687351
+C08-S5,C08,C,8,5,HPE,ProLiant DL380 Gen11,database,std,3,SN12871994
+C08-S6,C08,C,8,6,HPE,ProLiant DL380 Gen11,database,std,3,SN21048213
+C08-S7,C08,C,8,7,HPE,ProLiant DL380 Gen11,database,std,3,SN16087857
+C08-S8,C08,C,8,8,HPE,ProLiant DL380 Gen11,database,std,3,SN84800140
+C09-S1,C09,C,9,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN90272030
+C09-S2,C09,C,9,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN23795588
+C09-S3,C09,C,9,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN77206551
+C09-S4,C09,C,9,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN26134147
+C09-S5,C09,C,9,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN43048809
+C09-S6,C09,C,9,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN63944451
+C09-S7,C09,C,9,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN74793411
+C09-S8,C09,C,9,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN88710583
+C10-S1,C10,C,10,1,Dell,PowerEdge R760,database,std,3,SN14030635
+C10-S2,C10,C,10,2,Dell,PowerEdge R760,database,std,3,SN27679119
+C10-S3,C10,C,10,3,Dell,PowerEdge R760,database,std,3,SN35245775
+C10-S4,C10,C,10,4,Dell,PowerEdge R760,database,std,3,SN37929130
+C10-S5,C10,C,10,5,Dell,PowerEdge R760,database,std,3,SN99822507
+C10-S6,C10,C,10,6,Dell,PowerEdge R760,database,std,3,SN79966435
+C10-S7,C10,C,10,7,Dell,PowerEdge R760,database,std,3,SN38837550
+C10-S8,C10,C,10,8,Dell,PowerEdge R760,database,std,3,SN97464378
+C11-S1,C11,C,11,1,HPE,ProLiant DL380 Gen11,database,std,3,SN54937628
+C11-S2,C11,C,11,2,HPE,ProLiant DL380 Gen11,database,std,3,SN55066706
+C11-S3,C11,C,11,3,HPE,ProLiant DL380 Gen11,database,std,3,SN49032896
+C11-S4,C11,C,11,4,HPE,ProLiant DL380 Gen11,database,std,3,SN22950775
+C11-S5,C11,C,11,5,HPE,ProLiant DL380 Gen11,database,std,3,SN94093523
+C11-S6,C11,C,11,6,HPE,ProLiant DL380 Gen11,database,std,3,SN11254265
+C11-S7,C11,C,11,7,HPE,ProLiant DL380 Gen11,database,std,3,SN25685067
+C11-S8,C11,C,11,8,HPE,ProLiant DL380 Gen11,database,std,3,SN30669042
+C12-S1,C12,C,12,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN35136775
+C12-S2,C12,C,12,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN21863999
+C12-S3,C12,C,12,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN11616527
+C12-S4,C12,C,12,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN70989280
+C12-S5,C12,C,12,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN97237892
+C12-S6,C12,C,12,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN20964925
+C12-S7,C12,C,12,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN36688168
+C12-S8,C12,C,12,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN55569693
+C13-S1,C13,C,13,1,Dell,PowerEdge R760,database,std,3,SN93475212
+C13-S2,C13,C,13,2,Dell,PowerEdge R760,database,std,3,SN72483619
+C13-S3,C13,C,13,3,Dell,PowerEdge R760,database,std,3,SN78956931
+C13-S4,C13,C,13,4,Dell,PowerEdge R760,database,std,3,SN62300494
+C13-S5,C13,C,13,5,Dell,PowerEdge R760,database,std,3,SN47533220
+C13-S6,C13,C,13,6,Dell,PowerEdge R760,database,std,3,SN27979808
+C13-S7,C13,C,13,7,Dell,PowerEdge R760,database,std,3,SN87788294
+C13-S8,C13,C,13,8,Dell,PowerEdge R760,database,std,3,SN82371207
+C14-S1,C14,C,14,1,HPE,ProLiant DL380 Gen11,database,std,3,SN12259119
+C14-S2,C14,C,14,2,HPE,ProLiant DL380 Gen11,database,std,3,SN74386641
+C14-S3,C14,C,14,3,HPE,ProLiant DL380 Gen11,database,std,3,SN17594929
+C14-S4,C14,C,14,4,HPE,ProLiant DL380 Gen11,database,std,3,SN76508560
+C14-S5,C14,C,14,5,HPE,ProLiant DL380 Gen11,database,std,3,SN84335846
+C14-S6,C14,C,14,6,HPE,ProLiant DL380 Gen11,database,std,3,SN21795197
+C14-S7,C14,C,14,7,HPE,ProLiant DL380 Gen11,database,std,3,SN49045227
+C14-S8,C14,C,14,8,HPE,ProLiant DL380 Gen11,database,std,3,SN21137842
+C15-S1,C15,C,15,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN61055399
+C15-S2,C15,C,15,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN93480629
+C15-S3,C15,C,15,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN17278259
+C15-S4,C15,C,15,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN45782037
+C15-S5,C15,C,15,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN97580846
+C15-S6,C15,C,15,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN37085382
+C15-S7,C15,C,15,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN21899503
+C15-S8,C15,C,15,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN53972564
+C16-S1,C16,C,16,1,Dell,PowerEdge R760,database,std,3,SN55753532
+C16-S2,C16,C,16,2,Dell,PowerEdge R760,database,std,3,SN69657779
+C16-S3,C16,C,16,3,Dell,PowerEdge R760,database,std,3,SN38236380
+C16-S4,C16,C,16,4,Dell,PowerEdge R760,database,std,3,SN96006093
+C16-S5,C16,C,16,5,Dell,PowerEdge R760,database,std,3,SN56892046
+C16-S6,C16,C,16,6,Dell,PowerEdge R760,database,std,3,SN35780160
+C16-S7,C16,C,16,7,Dell,PowerEdge R760,database,std,3,SN96425600
+C16-S8,C16,C,16,8,Dell,PowerEdge R760,database,std,3,SN93232758
+C17-S1,C17,C,17,1,HPE,ProLiant DL380 Gen11,database,std,3,SN54924829
+C17-S2,C17,C,17,2,HPE,ProLiant DL380 Gen11,database,std,3,SN12237354
+C17-S3,C17,C,17,3,HPE,ProLiant DL380 Gen11,database,std,3,SN63724249
+C17-S4,C17,C,17,4,HPE,ProLiant DL380 Gen11,database,std,3,SN59967823
+C17-S5,C17,C,17,5,HPE,ProLiant DL380 Gen11,database,std,3,SN23338758
+C17-S6,C17,C,17,6,HPE,ProLiant DL380 Gen11,database,std,3,SN67057760
+C17-S7,C17,C,17,7,HPE,ProLiant DL380 Gen11,database,std,3,SN85671421
+C17-S8,C17,C,17,8,HPE,ProLiant DL380 Gen11,database,std,3,SN19530766
+C18-S1,C18,C,18,1,Lenovo,ThinkSystem SR650 V3,database,std,3,SN75099037
+C18-S2,C18,C,18,2,Lenovo,ThinkSystem SR650 V3,database,std,3,SN22630563
+C18-S3,C18,C,18,3,Lenovo,ThinkSystem SR650 V3,database,std,3,SN77394364
+C18-S4,C18,C,18,4,Lenovo,ThinkSystem SR650 V3,database,std,3,SN47720288
+C18-S5,C18,C,18,5,Lenovo,ThinkSystem SR650 V3,database,std,3,SN10585992
+C18-S6,C18,C,18,6,Lenovo,ThinkSystem SR650 V3,database,std,3,SN96960872
+C18-S7,C18,C,18,7,Lenovo,ThinkSystem SR650 V3,database,std,3,SN24937334
+C18-S8,C18,C,18,8,Lenovo,ThinkSystem SR650 V3,database,std,3,SN63643829
+C19-S1,C19,C,19,1,Dell,PowerEdge R760,database,std,3,SN26332140
+C19-S2,C19,C,19,2,Dell,PowerEdge R760,database,std,3,SN93972089
+C19-S3,C19,C,19,3,Dell,PowerEdge R760,database,std,3,SN76449298
+C19-S4,C19,C,19,4,Dell,PowerEdge R760,database,std,3,SN82392482
+C19-S5,C19,C,19,5,Dell,PowerEdge R760,database,std,3,SN48887190
+C19-S6,C19,C,19,6,Dell,PowerEdge R760,database,std,3,SN52064344
+C19-S7,C19,C,19,7,Dell,PowerEdge R760,database,std,3,SN67087105
+C19-S8,C19,C,19,8,Dell,PowerEdge R760,database,std,3,SN80628710
+C20-S1,C20,C,20,1,HPE,ProLiant DL380 Gen11,database,std,3,SN86228159
+C20-S2,C20,C,20,2,HPE,ProLiant DL380 Gen11,database,std,3,SN11605310
+C20-S3,C20,C,20,3,HPE,ProLiant DL380 Gen11,database,std,3,SN69720523
+C20-S4,C20,C,20,4,HPE,ProLiant DL380 Gen11,database,std,3,SN19822959
+C20-S5,C20,C,20,5,HPE,ProLiant DL380 Gen11,database,std,3,SN35913858
+C20-S6,C20,C,20,6,HPE,ProLiant DL380 Gen11,database,std,3,SN84648575
+C20-S7,C20,C,20,7,HPE,ProLiant DL380 Gen11,database,std,3,SN32546185
+C20-S8,C20,C,20,8,HPE,ProLiant DL380 Gen11,database,std,3,SN81713537
+D01-S1,D01,D,1,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN51670702
+D01-S2,D01,D,1,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN30937666
+D01-S3,D01,D,1,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN40081977
+D01-S4,D01,D,1,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN57769263
+D01-S5,D01,D,1,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN78863245
+D01-S6,D01,D,1,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN64541423
+D01-S7,D01,D,1,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN93990145
+D01-S8,D01,D,1,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN88096505
+D02-S1,D02,D,2,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN77801817
+D02-S2,D02,D,2,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN64279644
+D02-S3,D02,D,2,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN36087023
+D02-S4,D02,D,2,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN47131441
+D02-S5,D02,D,2,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN20700485
+D02-S6,D02,D,2,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN43676563
+D02-S7,D02,D,2,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN93382501
+D02-S8,D02,D,2,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN48329387
+D03-S1,D03,D,3,1,Dell,PowerEdge R760,storage,std,2,SN20235594
+D03-S2,D03,D,3,2,Dell,PowerEdge R760,storage,std,2,SN68673792
+D03-S3,D03,D,3,3,Dell,PowerEdge R760,storage,std,2,SN96635338
+D03-S4,D03,D,3,4,Dell,PowerEdge R760,storage,std,2,SN88074156
+D03-S5,D03,D,3,5,Dell,PowerEdge R760,storage,std,2,SN34666880
+D03-S6,D03,D,3,6,Dell,PowerEdge R760,storage,std,2,SN50850719
+D03-S7,D03,D,3,7,Dell,PowerEdge R760,storage,std,2,SN57791486
+D03-S8,D03,D,3,8,Dell,PowerEdge R760,storage,std,2,SN32305560
+D04-S1,D04,D,4,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN34182278
+D04-S2,D04,D,4,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN31299612
+D04-S3,D04,D,4,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN99512316
+D04-S4,D04,D,4,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN77141285
+D04-S5,D04,D,4,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN85677073
+D04-S6,D04,D,4,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN83491188
+D04-S7,D04,D,4,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN96322911
+D04-S8,D04,D,4,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN19475027
+D05-S1,D05,D,5,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN89346919
+D05-S2,D05,D,5,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN15990297
+D05-S3,D05,D,5,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN52787891
+D05-S4,D05,D,5,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN63499029
+D05-S5,D05,D,5,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN42207497
+D05-S6,D05,D,5,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN23155591
+D05-S7,D05,D,5,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN27307119
+D05-S8,D05,D,5,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN84219777
+D06-S1,D06,D,6,1,Dell,PowerEdge R760,storage,std,2,SN38685151
+D06-S2,D06,D,6,2,Dell,PowerEdge R760,storage,std,2,SN37930120
+D06-S3,D06,D,6,3,Dell,PowerEdge R760,storage,std,2,SN93102568
+D06-S4,D06,D,6,4,Dell,PowerEdge R760,storage,std,2,SN22948473
+D06-S5,D06,D,6,5,Dell,PowerEdge R760,storage,std,2,SN92374022
+D06-S6,D06,D,6,6,Dell,PowerEdge R760,storage,std,2,SN92887342
+D06-S7,D06,D,6,7,Dell,PowerEdge R760,storage,std,2,SN63870367
+D06-S8,D06,D,6,8,Dell,PowerEdge R760,storage,std,2,SN24897855
+D07-S1,D07,D,7,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN24027477
+D07-S2,D07,D,7,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN35624807
+D07-S3,D07,D,7,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN61967408
+D07-S4,D07,D,7,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN23825205
+D07-S5,D07,D,7,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN51009213
+D07-S6,D07,D,7,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN20394105
+D07-S7,D07,D,7,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN58625571
+D07-S8,D07,D,7,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN11903321
+D08-S1,D08,D,8,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN73813255
+D08-S2,D08,D,8,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN14985586
+D08-S3,D08,D,8,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN27533965
+D08-S4,D08,D,8,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN25717732
+D08-S5,D08,D,8,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN84789468
+D08-S6,D08,D,8,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN14804373
+D08-S7,D08,D,8,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN48633369
+D08-S8,D08,D,8,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN63202943
+D09-S1,D09,D,9,1,Dell,PowerEdge R760,storage,std,2,SN56439599
+D09-S2,D09,D,9,2,Dell,PowerEdge R760,storage,std,2,SN71264307
+D09-S3,D09,D,9,3,Dell,PowerEdge R760,storage,std,2,SN82279118
+D09-S4,D09,D,9,4,Dell,PowerEdge R760,storage,std,2,SN45426741
+D09-S5,D09,D,9,5,Dell,PowerEdge R760,storage,std,2,SN84539608
+D09-S6,D09,D,9,6,Dell,PowerEdge R760,storage,std,2,SN38619198
+D09-S7,D09,D,9,7,Dell,PowerEdge R760,storage,std,2,SN55407361
+D09-S8,D09,D,9,8,Dell,PowerEdge R760,storage,std,2,SN76241200
+D10-S1,D10,D,10,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN88750444
+D10-S2,D10,D,10,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN81338612
+D10-S3,D10,D,10,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN86601846
+D10-S4,D10,D,10,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN58286221
+D10-S5,D10,D,10,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN13912755
+D10-S6,D10,D,10,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN54377518
+D10-S7,D10,D,10,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN26334856
+D10-S8,D10,D,10,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN90020492
+D11-S1,D11,D,11,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN31307038
+D11-S2,D11,D,11,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN30526284
+D11-S3,D11,D,11,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN32444881
+D11-S4,D11,D,11,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN67830963
+D11-S5,D11,D,11,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN61410938
+D11-S6,D11,D,11,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN95395678
+D11-S7,D11,D,11,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN47463618
+D11-S8,D11,D,11,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN35405034
+D12-S1,D12,D,12,1,Dell,PowerEdge R760,storage,std,2,SN14432870
+D12-S2,D12,D,12,2,Dell,PowerEdge R760,storage,std,2,SN10636831
+D12-S3,D12,D,12,3,Dell,PowerEdge R760,storage,std,2,SN43625272
+D12-S4,D12,D,12,4,Dell,PowerEdge R760,storage,std,2,SN93323565
+D12-S5,D12,D,12,5,Dell,PowerEdge R760,storage,std,2,SN57137765
+D12-S6,D12,D,12,6,Dell,PowerEdge R760,storage,std,2,SN90419285
+D12-S7,D12,D,12,7,Dell,PowerEdge R760,storage,std,2,SN19150471
+D12-S8,D12,D,12,8,Dell,PowerEdge R760,storage,std,2,SN18398890
+D13-S1,D13,D,13,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN85011269
+D13-S2,D13,D,13,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN19606782
+D13-S3,D13,D,13,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN14676567
+D13-S4,D13,D,13,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN46368341
+D13-S5,D13,D,13,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN93235768
+D13-S6,D13,D,13,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN72044503
+D13-S7,D13,D,13,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN18920182
+D13-S8,D13,D,13,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN85341793
+D14-S1,D14,D,14,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN85921745
+D14-S2,D14,D,14,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN82062688
+D14-S3,D14,D,14,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN91238782
+D14-S4,D14,D,14,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN31589021
+D14-S5,D14,D,14,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN98161361
+D14-S6,D14,D,14,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN38862667
+D14-S7,D14,D,14,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN82182329
+D14-S8,D14,D,14,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN62142809
+D15-S1,D15,D,15,1,Dell,PowerEdge R760,storage,std,2,SN80152978
+D15-S2,D15,D,15,2,Dell,PowerEdge R760,storage,std,2,SN66503747
+D15-S3,D15,D,15,3,Dell,PowerEdge R760,storage,std,2,SN67823494
+D15-S4,D15,D,15,4,Dell,PowerEdge R760,storage,std,2,SN65465568
+D15-S5,D15,D,15,5,Dell,PowerEdge R760,storage,std,2,SN80109671
+D15-S6,D15,D,15,6,Dell,PowerEdge R760,storage,std,2,SN76513866
+D15-S7,D15,D,15,7,Dell,PowerEdge R760,storage,std,2,SN22109698
+D15-S8,D15,D,15,8,Dell,PowerEdge R760,storage,std,2,SN84344939
+D16-S1,D16,D,16,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN58246123
+D16-S2,D16,D,16,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN39077508
+D16-S3,D16,D,16,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN56280058
+D16-S4,D16,D,16,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN97028512
+D16-S5,D16,D,16,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN87181492
+D16-S6,D16,D,16,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN85032865
+D16-S7,D16,D,16,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN51651942
+D16-S8,D16,D,16,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN80572405
+D17-S1,D17,D,17,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN44658054
+D17-S2,D17,D,17,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN71754893
+D17-S3,D17,D,17,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN67560694
+D17-S4,D17,D,17,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN32481883
+D17-S5,D17,D,17,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN33981698
+D17-S6,D17,D,17,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN15501983
+D17-S7,D17,D,17,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN22579156
+D17-S8,D17,D,17,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN49025678
+D18-S1,D18,D,18,1,Dell,PowerEdge R760,storage,std,2,SN53008954
+D18-S2,D18,D,18,2,Dell,PowerEdge R760,storage,std,2,SN24860865
+D18-S3,D18,D,18,3,Dell,PowerEdge R760,storage,std,2,SN47520043
+D18-S4,D18,D,18,4,Dell,PowerEdge R760,storage,std,2,SN64375976
+D18-S5,D18,D,18,5,Dell,PowerEdge R760,storage,std,2,SN30931294
+D18-S6,D18,D,18,6,Dell,PowerEdge R760,storage,std,2,SN40441321
+D18-S7,D18,D,18,7,Dell,PowerEdge R760,storage,std,2,SN43076062
+D18-S8,D18,D,18,8,Dell,PowerEdge R760,storage,std,2,SN55454849
+D19-S1,D19,D,19,1,HPE,ProLiant DL380 Gen11,storage,std,2,SN42975320
+D19-S2,D19,D,19,2,HPE,ProLiant DL380 Gen11,storage,std,2,SN76325015
+D19-S3,D19,D,19,3,HPE,ProLiant DL380 Gen11,storage,std,2,SN39474600
+D19-S4,D19,D,19,4,HPE,ProLiant DL380 Gen11,storage,std,2,SN49050708
+D19-S5,D19,D,19,5,HPE,ProLiant DL380 Gen11,storage,std,2,SN44151767
+D19-S6,D19,D,19,6,HPE,ProLiant DL380 Gen11,storage,std,2,SN26462421
+D19-S7,D19,D,19,7,HPE,ProLiant DL380 Gen11,storage,std,2,SN71716901
+D19-S8,D19,D,19,8,HPE,ProLiant DL380 Gen11,storage,std,2,SN31190154
+D20-S1,D20,D,20,1,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN36718882
+D20-S2,D20,D,20,2,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN81347676
+D20-S3,D20,D,20,3,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN95397213
+D20-S4,D20,D,20,4,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN70375884
+D20-S5,D20,D,20,5,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN92471321
+D20-S6,D20,D,20,6,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN86877156
+D20-S7,D20,D,20,7,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN53281938
+D20-S8,D20,D,20,8,Lenovo,ThinkSystem SR650 V3,storage,std,2,SN79326115
+E01-S1,E01,E,1,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN39552508
+E01-S2,E01,E,1,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN51444734
+E01-S3,E01,E,1,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN58189131
+E01-S4,E01,E,1,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN96444371
+E01-S5,E01,E,1,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN86370443
+E01-S6,E01,E,1,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN54032767
+E01-S7,E01,E,1,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN68732860
+E01-S8,E01,E,1,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN28212084
+E02-S1,E02,E,2,1,Dell,PowerEdge XE8640,ai,ai,3,SN82395264
+E02-S2,E02,E,2,2,Dell,PowerEdge XE8640,ai,ai,3,SN59773416
+E02-S3,E02,E,2,3,Dell,PowerEdge XE8640,ai,ai,3,SN57945004
+E02-S4,E02,E,2,4,Dell,PowerEdge XE8640,ai,ai,3,SN78965517
+E02-S5,E02,E,2,5,Dell,PowerEdge XE8640,ai,ai,3,SN66962586
+E02-S6,E02,E,2,6,Dell,PowerEdge XE8640,ai,ai,3,SN16522037
+E02-S7,E02,E,2,7,Dell,PowerEdge XE8640,ai,ai,3,SN35934005
+E02-S8,E02,E,2,8,Dell,PowerEdge XE8640,ai,ai,3,SN25904706
+E03-S1,E03,E,3,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN76140384
+E03-S2,E03,E,3,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN13163245
+E03-S3,E03,E,3,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN28216413
+E03-S4,E03,E,3,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN63770053
+E03-S5,E03,E,3,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN72531831
+E03-S6,E03,E,3,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN55297440
+E03-S7,E03,E,3,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN87464716
+E03-S8,E03,E,3,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN92704607
+E04-S1,E04,E,4,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN21889255
+E04-S2,E04,E,4,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN95725998
+E04-S3,E04,E,4,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN65294176
+E04-S4,E04,E,4,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN67259723
+E04-S5,E04,E,4,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN18558617
+E04-S6,E04,E,4,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN65968469
+E04-S7,E04,E,4,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN75314406
+E04-S8,E04,E,4,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN62271201
+E05-S1,E05,E,5,1,Dell,PowerEdge XE8640,ai,ai,3,SN17604389
+E05-S2,E05,E,5,2,Dell,PowerEdge XE8640,ai,ai,3,SN57090470
+E05-S3,E05,E,5,3,Dell,PowerEdge XE8640,ai,ai,3,SN94234584
+E05-S4,E05,E,5,4,Dell,PowerEdge XE8640,ai,ai,3,SN75107486
+E05-S5,E05,E,5,5,Dell,PowerEdge XE8640,ai,ai,3,SN22366713
+E05-S6,E05,E,5,6,Dell,PowerEdge XE8640,ai,ai,3,SN96394465
+E05-S7,E05,E,5,7,Dell,PowerEdge XE8640,ai,ai,3,SN96299222
+E05-S8,E05,E,5,8,Dell,PowerEdge XE8640,ai,ai,3,SN25245597
+E06-S1,E06,E,6,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN82079575
+E06-S2,E06,E,6,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN46604539
+E06-S3,E06,E,6,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN63431380
+E06-S4,E06,E,6,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN50066767
+E06-S5,E06,E,6,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN80436169
+E06-S6,E06,E,6,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN99699387
+E06-S7,E06,E,6,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN81560335
+E06-S8,E06,E,6,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN93823428
+E07-S1,E07,E,7,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN95142435
+E07-S2,E07,E,7,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN18109488
+E07-S3,E07,E,7,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN32804501
+E07-S4,E07,E,7,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN74967091
+E07-S5,E07,E,7,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN63106830
+E07-S6,E07,E,7,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN14513155
+E07-S7,E07,E,7,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN18554427
+E07-S8,E07,E,7,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN56849265
+E08-S1,E08,E,8,1,Dell,PowerEdge XE8640,ai,ai,3,SN65454912
+E08-S2,E08,E,8,2,Dell,PowerEdge XE8640,ai,ai,3,SN25094740
+E08-S3,E08,E,8,3,Dell,PowerEdge XE8640,ai,ai,3,SN25416217
+E08-S4,E08,E,8,4,Dell,PowerEdge XE8640,ai,ai,3,SN21640619
+E08-S5,E08,E,8,5,Dell,PowerEdge XE8640,ai,ai,3,SN60845555
+E08-S6,E08,E,8,6,Dell,PowerEdge XE8640,ai,ai,3,SN10706827
+E08-S7,E08,E,8,7,Dell,PowerEdge XE8640,ai,ai,3,SN61518746
+E08-S8,E08,E,8,8,Dell,PowerEdge XE8640,ai,ai,3,SN52833579
+E09-S1,E09,E,9,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN51938663
+E09-S2,E09,E,9,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN71134863
+E09-S3,E09,E,9,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN57036859
+E09-S4,E09,E,9,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN78753105
+E09-S5,E09,E,9,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN92810597
+E09-S6,E09,E,9,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN81932024
+E09-S7,E09,E,9,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN56593557
+E09-S8,E09,E,9,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN54293789
+E10-S1,E10,E,10,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN31213773
+E10-S2,E10,E,10,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN63963409
+E10-S3,E10,E,10,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN22522189
+E10-S4,E10,E,10,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN93811261
+E10-S5,E10,E,10,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN86053983
+E10-S6,E10,E,10,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN20776022
+E10-S7,E10,E,10,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN80736029
+E10-S8,E10,E,10,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN20539320
+E11-S1,E11,E,11,1,Dell,PowerEdge XE8640,ai,ai,3,SN17893811
+E11-S2,E11,E,11,2,Dell,PowerEdge XE8640,ai,ai,3,SN53937407
+E11-S3,E11,E,11,3,Dell,PowerEdge XE8640,ai,ai,3,SN69207695
+E11-S4,E11,E,11,4,Dell,PowerEdge XE8640,ai,ai,3,SN75592975
+E11-S5,E11,E,11,5,Dell,PowerEdge XE8640,ai,ai,3,SN47674747
+E11-S6,E11,E,11,6,Dell,PowerEdge XE8640,ai,ai,3,SN92946111
+E11-S7,E11,E,11,7,Dell,PowerEdge XE8640,ai,ai,3,SN79688927
+E11-S8,E11,E,11,8,Dell,PowerEdge XE8640,ai,ai,3,SN28743828
+E12-S1,E12,E,12,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN70410827
+E12-S2,E12,E,12,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN75748112
+E12-S3,E12,E,12,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN40027398
+E12-S4,E12,E,12,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN76440818
+E12-S5,E12,E,12,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN90852989
+E12-S6,E12,E,12,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN83540285
+E12-S7,E12,E,12,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN78627893
+E12-S8,E12,E,12,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN67104769
+E13-S1,E13,E,13,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN34348144
+E13-S2,E13,E,13,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN81570065
+E13-S3,E13,E,13,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN42777281
+E13-S4,E13,E,13,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN57897713
+E13-S5,E13,E,13,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN38299598
+E13-S6,E13,E,13,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN38171536
+E13-S7,E13,E,13,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN24185048
+E13-S8,E13,E,13,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN23300503
+E14-S1,E14,E,14,1,Dell,PowerEdge XE8640,ai,ai,3,SN17763293
+E14-S2,E14,E,14,2,Dell,PowerEdge XE8640,ai,ai,3,SN94251471
+E14-S3,E14,E,14,3,Dell,PowerEdge XE8640,ai,ai,3,SN49411363
+E14-S4,E14,E,14,4,Dell,PowerEdge XE8640,ai,ai,3,SN76374221
+E14-S5,E14,E,14,5,Dell,PowerEdge XE8640,ai,ai,3,SN44498784
+E14-S6,E14,E,14,6,Dell,PowerEdge XE8640,ai,ai,3,SN21512945
+E14-S7,E14,E,14,7,Dell,PowerEdge XE8640,ai,ai,3,SN75671713
+E14-S8,E14,E,14,8,Dell,PowerEdge XE8640,ai,ai,3,SN25839954
+E15-S1,E15,E,15,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN59769375
+E15-S2,E15,E,15,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN95415952
+E15-S3,E15,E,15,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN94252598
+E15-S4,E15,E,15,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN42470468
+E15-S5,E15,E,15,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN80227134
+E15-S6,E15,E,15,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN65140821
+E15-S7,E15,E,15,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN53143260
+E15-S8,E15,E,15,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN22593530
+E16-S1,E16,E,16,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN43872352
+E16-S2,E16,E,16,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN68672627
+E16-S3,E16,E,16,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN98796839
+E16-S4,E16,E,16,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN74598421
+E16-S5,E16,E,16,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN86170317
+E16-S6,E16,E,16,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN95607519
+E16-S7,E16,E,16,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN48142332
+E16-S8,E16,E,16,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN20663071
+E17-S1,E17,E,17,1,Dell,PowerEdge XE8640,ai,ai,3,SN34387046
+E17-S2,E17,E,17,2,Dell,PowerEdge XE8640,ai,ai,3,SN86548031
+E17-S3,E17,E,17,3,Dell,PowerEdge XE8640,ai,ai,3,SN89014142
+E17-S4,E17,E,17,4,Dell,PowerEdge XE8640,ai,ai,3,SN67336649
+E17-S5,E17,E,17,5,Dell,PowerEdge XE8640,ai,ai,3,SN21046644
+E17-S6,E17,E,17,6,Dell,PowerEdge XE8640,ai,ai,3,SN20972951
+E17-S7,E17,E,17,7,Dell,PowerEdge XE8640,ai,ai,3,SN53035490
+E17-S8,E17,E,17,8,Dell,PowerEdge XE8640,ai,ai,3,SN62943219
+E18-S1,E18,E,18,1,HPE,ProLiant DL380a Gen11,ai,ai,3,SN12914076
+E18-S2,E18,E,18,2,HPE,ProLiant DL380a Gen11,ai,ai,3,SN71748672
+E18-S3,E18,E,18,3,HPE,ProLiant DL380a Gen11,ai,ai,3,SN59005901
+E18-S4,E18,E,18,4,HPE,ProLiant DL380a Gen11,ai,ai,3,SN11107241
+E18-S5,E18,E,18,5,HPE,ProLiant DL380a Gen11,ai,ai,3,SN18610978
+E18-S6,E18,E,18,6,HPE,ProLiant DL380a Gen11,ai,ai,3,SN50888616
+E18-S7,E18,E,18,7,HPE,ProLiant DL380a Gen11,ai,ai,3,SN75032689
+E18-S8,E18,E,18,8,HPE,ProLiant DL380a Gen11,ai,ai,3,SN84285955
+E19-S1,E19,E,19,1,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN48817143
+E19-S2,E19,E,19,2,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN36582312
+E19-S3,E19,E,19,3,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN97147931
+E19-S4,E19,E,19,4,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN51269327
+E19-S5,E19,E,19,5,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN38385074
+E19-S6,E19,E,19,6,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN49808271
+E19-S7,E19,E,19,7,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN11088248
+E19-S8,E19,E,19,8,Lenovo,ThinkSystem SR675 V3,ai,ai,3,SN37173465
+E20-S1,E20,E,20,1,Dell,PowerEdge XE8640,ai,ai,3,SN56399901
+E20-S2,E20,E,20,2,Dell,PowerEdge XE8640,ai,ai,3,SN92659770
+E20-S3,E20,E,20,3,Dell,PowerEdge XE8640,ai,ai,3,SN76440346
+E20-S4,E20,E,20,4,Dell,PowerEdge XE8640,ai,ai,3,SN80316463
+E20-S5,E20,E,20,5,Dell,PowerEdge XE8640,ai,ai,3,SN59041153
+E20-S6,E20,E,20,6,Dell,PowerEdge XE8640,ai,ai,3,SN19952956
+E20-S7,E20,E,20,7,Dell,PowerEdge XE8640,ai,ai,3,SN45183382
+E20-S8,E20,E,20,8,Dell,PowerEdge XE8640,ai,ai,3,SN99733119

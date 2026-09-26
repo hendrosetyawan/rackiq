@@ -1,108 +1,93 @@
 """
-Exports a fully precomputed snapshot of the RackIQ API into static JSON files,
-for a "static demo mode" build of the frontend deployed to Firebase Hosting
-(which only serves static files on the free plan -- no Python backend runs
-there). The live/local run (see instructions_to_run.txt) always uses the
-real FastAPI backend; this export is ONLY for the hosted, no-backend demo.
+Exports a precomputed snapshot of every RackIQ API view into static JSON for
+the Firebase-hosted demo (Firebase Hosting's free tier serves static files
+only, so no Python backend runs there). Local runs always use the live API.
 
-Requires the backend API running locally at http://127.0.0.1:8000 (all data
-loaders + models load from it, so we just call the real endpoints -- this
-guarantees the static snapshot exactly matches live behavior at export time).
+Calls the backend's Fleet object directly (no server needed), so the snapshot
+is exactly what the live API returns at export time.
 
-Run: python3 scripts/export_static_demo.py   (from the rackiq/ repo root,
-with `uvicorn backend.app.main:app --port 8000` already running)
+Run from the rackiq/ repo root:  python3 scripts/export_static_demo.py
+Output: frontend/public/data/*.json and frontend/public/data/racks/{rack}.json
 """
 import json
-import urllib.request
+import sys
+import time
 from pathlib import Path
 
-BASE = "http://127.0.0.1:8000/api"
-OUT_DIR = Path(__file__).resolve().parent.parent / "frontend" / "public" / "data"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from backend.app.fleet import get_fleet  # noqa: E402
 
+OUT = ROOT / "frontend" / "public" / "data"
+RACKS = OUT / "racks"
+RACKS.mkdir(parents=True, exist_ok=True)
 
-def get(path):
-    with urllib.request.urlopen(f"{BASE}{path}") as r:
-        return json.loads(r.read())
-
-
-def post(path, payload=None):
-    data = json.dumps(payload or {}).encode()
-    req = urllib.request.Request(f"{BASE}{path}", data=data, headers={"Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req) as r:
-        return json.loads(r.read())
-
-
-def write(name, obj):
-    with open(OUT_DIR / name, "w") as f:
-        json.dump(obj, f)
-    print(f"  wrote {name} ({len(json.dumps(obj))} bytes)")
-
-
-CANNED_QUERIES = [
-    ("PSU output ripple rising and fan RPM dropping, what should I do?", None),
-    ("DIMM correctable ECC errors climbing overnight, is a reseat enough?", None),
-    ("NIC link keeps flapping with CRC errors, replace the card or the transceiver?", None),
-    ("Disk showing reallocated sectors during a backup window, safe to hot-swap now?", None),
-    ("PSU voltage dropping", "psu"),
-    ("disk sector reallocation rising", "disk"),
-    ("memory errors correctable ECC", "dimm"),
-    ("network link flap crc", "nic"),
-    ("is it safe to replace hardware during a migration", None),
-    ("fan RPM low PSU overheating", "psu"),
+# Must match COPILOT_SUGGESTIONS in frontend/src/components/Copilot.jsx
+CANNED = [
+    ("Disk latency spiking with rising SMART read errors, replace now or wait?", None),
+    ("DIMM correctable ECC errors climbing, is a reseat enough?", None),
+    ("NIC link flapping with CRC errors, card or transceiver?", None),
+    ("Fan vibration rising while RPM drops", None),
+    ("PSU ripple rising and input voltage sagging during a backup window", None),
+    ("Inlet temperature rising across several racks in one cooling zone", None),
+    ("disk reallocated sectors pending sectors", "disk"),
+    ("memory uncorrectable ECC crash", "dimm"),
+    ("psu fan rpm drop overheating", "psu"),
+    ("nic packet loss after transceiver replaced", "nic"),
+    ("fan motor current rising", "fan"),
+    ("BMC unresponsive telemetry gaps", None),
+    ("failed BMC login attempts security", None),
 ]
 
 
+def write(name, obj):
+    path = OUT / f"{name}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = json.dumps(obj, separators=(",", ":"), default=str)
+    path.write_text(text)
+    return len(text)
+
+
 def main():
-    print("Exporting assets...")
-    assets = get("/assets")
-    write("assets.json", assets)
+    t0 = time.time()
+    f = get_fleet()
+    print(f"fleet loaded in {time.time() - t0:.1f}s")
+    sizes = {
+        "overview": write("overview", f.overview()),
+        "floor": write("floor", f.floor()),
+        "servers": write("servers", f.servers_view()),
+        "facility": write("facility", f.facility_view()),
+        "thermal_matrix": write("thermal_matrix", f.thermal_matrix()),
+        "model_telemetry": write("model_telemetry", f.model_telemetry()),
+        "workorders": write("workorders", f.workorders()),
+        "forecast": write("forecast", f.forecast()),
+        "incidents": write("incidents", f.incidents_view()),
+        "events": write("events", f.events_view(7)),
+        "inventory": write("inventory", f.inventory_view()),
+        "inventory_history": write("inventory_history", f.inventory_history()),
+        "consumption": write("consumption", f.consumption()),
+        "copilot_examples": write("copilot_examples", [{**f.copilot(q, c), "component": c} for q, c in CANNED]),
+    }
+    for k, v in sizes.items():
+        print(f"  {k:18s} {v / 1024:8.1f} KB")
 
-    print("Exporting risk (all components)...")
-    risk = get("/risk")
-    write("risk.json", risk)
-
-    print("Exporting alerts...")
-    alerts = get("/alerts")
-    write("alerts.json", alerts)
-
-    print("Exporting operational context...")
-    context = get("/context")
-    write("context.json", context)
-
-    print("Exporting graph stats...")
-    write("graph_stats.json", get("/graph/stats"))
-
-    print(f"Exporting telemetry for {len(assets)} assets...")
-    telemetry = {}
-    for a in assets:
-        aid = a["asset_id"]
-        try:
-            telemetry[aid] = get(f"/telemetry/{aid}?limit=24")
-        except Exception as e:
-            print(f"  WARN telemetry failed for {aid}: {e}")
-    write("telemetry.json", telemetry)
-
-    print(f"Exporting recommendations for {len(assets)} assets (this calls the full agent pipeline per asset)...")
-    recommendations = {}
-    for i, a in enumerate(assets):
-        aid = a["asset_id"]
-        try:
-            recommendations[aid] = post(f"/alerts/{aid}/recommend")
-        except Exception as e:
-            print(f"  WARN recommend failed for {aid}: {e}")
-        if (i + 1) % 50 == 0:
-            print(f"  ...{i + 1}/{len(assets)}")
-    write("recommendations.json", recommendations)
-
-    print(f"Exporting {len(CANNED_QUERIES)} canned Incident Copilot answers...")
-    copilot_examples = []
-    for query, component in CANNED_QUERIES:
-        result = post("/copilot", {"query": query, "component": component, "top_k": 5})
-        copilot_examples.append(result)
-    write("copilot_examples.json", copilot_examples)
-
-    print(f"\nStatic demo data exported to {OUT_DIR}")
+    total = 0
+    for rack_id, grp in f.asset_view.groupby("rack_id"):
+        timestamps, servers, assets, recs = None, {}, {}, {}
+        for aid in grp.index:
+            d = f.asset_detail(aid, n=60)
+            ts = d["series"].pop("timestamp")
+            ss = d.pop("server_series")
+            ss.pop("timestamp")
+            timestamps = timestamps or ts
+            servers.setdefault(d["server_id"], {}).update(ss)
+            d["server_channels"] = list(ss)
+            assets[aid] = d
+            # action plans only for flagged components; healthy ones need none
+            recs[aid] = f.recommend(aid) if d["tier"] != "healthy" else None
+        total += write(f"racks/{rack_id}", {"timestamps": timestamps, "servers": servers, "assets": assets, "recs": recs})
+    print(f"  racks/*            {total / 1024:8.1f} KB across {f.asset_view.rack_id.nunique()} files")
+    print(f"done in {time.time() - t0:.1f}s -> {OUT}")
 
 
 if __name__ == "__main__":
