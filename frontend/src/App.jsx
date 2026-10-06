@@ -8,6 +8,7 @@ import Maintenance from './pages/Maintenance.jsx'
 import EventLog from './pages/EventLog.jsx'
 import Inventory from './pages/Inventory.jsx'
 import AssetDetail from './pages/AssetDetail.jsx'
+import LiveFloor from './pages/LiveFloor.jsx'
 
 export default function App() {
   const { data: overview } = useApi(api.overview)
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/operations" element={<Operations overview={overview} />} />
           <Route path="/maintenance" element={<Maintenance overview={overview} />} />
           <Route path="/logs" element={<EventLog overview={overview} />} />
+          <Route path="/live" element={<LiveFloor overview={overview} />} />
           <Route path="/inventory" element={<Inventory overview={overview} />} />
           <Route path="/asset/:assetId" element={<AssetDetail overview={overview} />} />
         </Routes>

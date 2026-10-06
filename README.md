@@ -28,11 +28,12 @@ closed ticket, an RCA or an email thread. RackIQ:
 
 ## The prototype (v2)
 
-A DCIM-style web app with five sections, all D3.js visualizations, sized for a 1440×900 laptop screen:
+A DCIM-style web app with six sections (five D3.js analytics views plus a three.js live floor), sized for a 1440×900 laptop screen:
 
 | Section | What you see |
 |---|---|
 | **Command Center** | 3D data-hall floor (5 rows × 20 racks, 8 server slots each) coloured by health / inlet temperature / power, with context beacons; rack elevation; KPI gauges; priority queue |
+| **Live Floor 3D** | Live digital twin of the same 100-rack hall plus a spare-parts warehouse. A crew of 4 technicians and 1 superintendent (Claw3D avatars) works RackIQ's ranked work queue: they pick parts from bins (stock counts drop live and POs are raised at the reorder point), walk to the rack, then inspect, repair or swap the server while their tablet reports zone, battery, job and progress. Crews rotate every 8 hours (Day 06–14, Swing 14–22, Night 22–06) with a job handover. Every server shows its state: healthy, watch, warning, danger, down, under service, powered off or unoccupied. Clock speed: live, 10×, 60× or 360× |
 | **Operations** | Rack radar (power × thermal × flagged servers × context for 100 racks), brushable parallel coordinates across 800 servers, facility power & PUE, 100-rack × 90-day thermal matrix, AI telemetry (model accuracy, drift, confidence, latency) |
 | **Maintenance** | Risk matrix (risk × criticality × work time × component × part status), failure forecast vs spares, ranked work queue, RCA copilot |
 | **Event Log** | 12-month radial incident clock, weekly incident stream, 7-day MELT event feed (BMC SEL, syslog, SNMP, BMS, security, config), searchable ticket history |
@@ -88,9 +89,15 @@ data/inventory/   skus.csv, transactions.csv, stock_daily.csv
 backend/app/      ml/ (features, train, predict), knowledge/ (retrieval, graph),
                   agent/ (recommendation), fleet.py (state + views), main.py (FastAPI)
 backend/tests/    pytest (features, retrieval, agent, API)
-frontend/src/     pages/ (5 sections + asset detail), charts/ (D3), components/, api/
+frontend/src/     pages/ (6 sections + asset detail), charts/ (D3), components/, api/
+                  live/ (floor simulation, layout + walking graph, crews, three.js scene)
+                  vendor/claw3d/ (avatar model from Claw3D, MIT)
 docs/             project summary, technical documentation, demo script, team pipeline
 ```
+
+## Credits
+
+The Live Floor's crew avatars and rack design come from [Claw3D](https://github.com/iamlukethedev/claw3d) (MIT); see `frontend/src/vendor/claw3d/README.md`. The Live Floor is a simulation driven by RackIQ's real outputs: the floor status, the ranked work orders and warehouse stock. Crew, shifts and new alerts are simulated.
 
 ## Status
 

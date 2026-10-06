@@ -8,6 +8,7 @@ const I = {
   maint: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.8-.7-.7-2.8z',
   log: 'M4 6h16M4 12h16M4 18h10M18 15v6M15 18h6',
   inv: 'M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
+  live: 'M12 2l9 5v10l-9 5-9-5V7zM12 12l9-5M12 12v10M12 12L3 7',
 }
 
 function Icon({ d }) {
@@ -21,6 +22,7 @@ function Icon({ d }) {
 export function Sidebar({ overview }) {
   const items = [
     ['/', 'Command Center', I.command],
+    ['/live', 'Live Floor 3D', I.live],
     ['/operations', 'Operations', I.ops],
     ['/maintenance', 'Maintenance', I.maint],
     ['/logs', 'Event Log', I.log],
