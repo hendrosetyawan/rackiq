@@ -35,7 +35,8 @@ export type RenderAgent = (OfficeAgent | JanitorActor) & {
   pingPongSide?: 0 | 1;
   bumpTalkUntil?: number;
   // RackIQ crew fields
-  device?: boolean;
+  device?: string;
+  deviceKind?: "tablet" | "phone" | "badge";
   carrying?: string | null;
   task?: string;
 };

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client.js'
 import { Loading, PageHead, Panel } from '../components/common.jsx'
 import { STATE_COLOR, STATE_LABEL } from '../lib/theme.js'
+import { DEVICE } from '../live/crews.js'
 import { binSpot, rackFront } from '../live/layout.js'
-import { LiveSim, STATUS_COLOR, STATUS_LABEL, STATUS_ORDER } from '../live/sim.js'
+import { LiveSim, STATUS_COLOR, STATUS_LABEL, stockStatus } from '../live/sim.js'
 
 const DataHall = lazy(() => import('../live/DataHall.jsx'))
 const SPEEDS = [
@@ -18,6 +19,7 @@ const LOG_COLOR = { alert: '#ef4444', job: '#3b82f6', stock: '#f59e0b', shift: '
 const hhmm = (t) => new Date(t).toTimeString().slice(0, 5)
 const dur = (ms) => {
   const m = Math.max(0, Math.round(ms / 60000))
+  if (m >= 48 * 60) return `${Math.floor(m / 1440)}d ${Math.floor((m % 1440) / 60)}h`
   return m >= 60 ? `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}m` : `${m}m`
 }
 
@@ -110,7 +112,7 @@ export default function LiveFloor({ overview }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 32px)' }}>
-      <PageHead title="Live Floor" sub="3D digital twin of DH-1 · crew tablets, job progress, spare-part stock and server state in real time" overview={overview}>
+      <PageHead title="Live Floor" sub="3D digital twin of DH-1 · Sense telemetry, crew devices, jobs, spare parts and server state, live" overview={overview}>
         <div className="seg">
           {SPEEDS.map(([v, l]) => (
             <button key={v} className={speed === v ? 'on' : ''} onClick={() => setSpeed(v)} title={v === 1 ? 'Real time' : `${v} simulated seconds per second`}>
@@ -160,13 +162,14 @@ export default function LiveFloor({ overview }) {
             </Suspense>
             <div style={{ position: 'absolute', top: 10, left: 12, display: 'flex', gap: 6 }}>
               <button className="pill-btn" onClick={() => (setFollowId(null), setSelected(null), setFocus({ home: true }))}>Overview</button>
-              <button className="pill-btn" onClick={() => (setFollowId(null), setFocus({ x: 1460, y: 860 }))}>Warehouse</button>
+              <button className="pill-btn" onClick={() => (setFollowId(null), setFocus({ x: 1470, y: 850, offset: [-11, 10.5, 1.5] }))}>Warehouse</button>
               <button className="pill-btn" onClick={() => (setFollowId(null), setFocus({ x: 500, y: 470 }))}>NOC</button>
               {followId && <button className="pill-btn" style={{ color: '#22d3ee', borderColor: '#22d3ee' }} onClick={() => setFollowId(null)}>Following {sim.agents.find((a) => a.id === followId)?.name ?? '—'} ✕</button>}
             </div>
             <div className="floor-legend" style={{ left: 'auto', right: 12, bottom: 10, fontSize: 10.5, color: '#94a3b8', lineHeight: 1.6 }}>
               <div><b style={{ color: '#ff2d55' }}>▮ red beam</b> server down · <b style={{ color: '#3b82f6' }}>◯ blue ring</b> job in progress</div>
               <div>LED blink: fast = down · medium = danger · slow = under service</div>
+              <div><b style={{ color: '#22d3ee' }}>● RackIQ Sense</b> node on every rack · <b style={{ color: '#22d3ee' }}>▮ Edge gateway</b> on the west wall</div>
               <div>Rack kick-plate = ops state ({['dr_failover', 'migration', 'backup_window', 'maintenance_window'].map((s) => <b key={s} style={{ color: STATE_COLOR[s] }}>{STATE_LABEL[s]} </b>)})</div>
             </div>
             {hover && <HoverTip hover={hover} sim={sim} />}
@@ -174,7 +177,7 @@ export default function LiveFloor({ overview }) {
           </section>
 
           <div className="grid" style={{ gridTemplateColumns: 'minmax(0,1.6fr) minmax(0,1fr)', height: 178, flex: 'none' }}>
-            <Panel title="Live job feed" sub="from crew tablets + RackIQ" bodyStyle={{ overflow: 'auto', paddingTop: 4 }}>
+            <Panel title="Live job feed" sub="from crew devices + RackIQ" bodyStyle={{ overflow: 'auto', paddingTop: 4 }}>
               {sim.log.slice(0, 60).map((l, i) => (
                 <div key={`${l.t}-${i}`} style={{ display: 'flex', gap: 8, fontSize: 11.5, padding: '2px 0', borderBottom: '1px solid #0f1a2e' }}>
                   <span className="mono dim">{hhmm(l.t)}</span>
@@ -204,22 +207,27 @@ export default function LiveFloor({ overview }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
-          <Panel title="Crew on duty" sub={`${shiftCrew.length} tablets online`} style={{ flex: 'none' }} bodyStyle={{ paddingTop: 4 }}>
+          <Panel title="Crew on duty" sub={`${shiftCrew.length} devices online`} style={{ flex: 'none' }} bodyStyle={{ paddingTop: 4 }}>
             {[...shiftCrew, ...leaving].map((a) => (
               <CrewCard key={a.id} a={a} sim={sim} active={selected?.kind === 'agent' && selected.id === a.id} onClick={() => pickAgent(a.id)} shiftColor={sim.shift.color} />
             ))}
           </Panel>
           <Panel title="Warehouse stock" sub="live bin counts" style={{ flex: 1, minHeight: 0 }} bodyStyle={{ overflow: 'auto', paddingTop: 2 }}>
             {stock.map((s) => {
-              const c = s.onHand <= 0 ? '#ef4444' : s.onHand <= s.reorderPoint ? '#f97316' : '#22c55e'
+              const st = stockStatus(s)
+              const c = st.color
               const max = Math.max(s.reorderPoint * 2, s.onHand, 6)
               const waiting = open.filter((j) => j.sku === s.sku && j.status === 'queued').length
               return (
                 <div key={s.sku} onClick={() => pickSku(s.sku)} style={{ padding: '5px 4px', borderBottom: '1px solid #0f1a2e', cursor: 'pointer', background: selected?.id === s.sku ? 'rgba(34,211,238,.07)' : 'transparent' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11.5, gap: 6 }}>
                     <span className="mono">{s.sku}</span>
-                    <span className="mono" style={{ color: c, fontWeight: 600 }}>{s.onHand}</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '.04em', padding: '1px 6px', borderRadius: 4, color: c, border: `1px solid ${c}66`, background: `${c}14`, whiteSpace: 'nowrap' }}>{st.short}</span>
+                      <span className="mono" style={{ color: c, fontWeight: 600 }}>{s.onHand}</span>
+                    </span>
                   </div>
+                  <div style={{ fontSize: 10.5, color: '#7dd3fc' }}>{s.type} · {s.brand}</div>
                   <div style={{ position: 'relative', height: 4, background: '#121b30', borderRadius: 2, margin: '3px 0' }}>
                     <div style={{ width: `${(Math.min(s.onHand, max) / max) * 100}%`, height: '100%', background: c, borderRadius: 2 }} />
                     <div style={{ position: 'absolute', left: `${(s.reorderPoint / max) * 100}%`, top: -2, width: 1, height: 8, background: '#e2e8f0', opacity: 0.6 }} />
@@ -229,7 +237,7 @@ export default function LiveFloor({ overview }) {
                     <span>ROP {s.reorderPoint}</span>
                     {s.picked > 0 && <span>{s.picked} picked</span>}
                     {s.inbound > 0 && <span style={{ color: '#a3e635' }}>+{s.inbound} in {dur(s.eta - sim.simTime)}</span>}
-                    {waiting > 0 && <span style={{ color: '#f97316' }}>{waiting} jobs waiting</span>}
+                    {waiting > 0 && <span style={{ color: '#f97316' }}>{waiting} job{waiting > 1 ? 's' : ''} waiting</span>}
                   </div>
                 </div>
               )
@@ -247,13 +255,14 @@ function CrewCard({ a, sim, active, onClick, shiftColor }) {
     <div onClick={onClick} style={{ padding: '6px 8px', margin: '0 -4px 4px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${active ? '#22d3ee' : '#15213a'}`, background: active ? 'rgba(34,211,238,.06)' : 'rgba(8,13,26,.5)', opacity: a.leaving ? 0.5 : 1 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
         <i style={{ width: 8, height: 8, borderRadius: a.role === 'superintendent' ? 2 : '50%', background: a.leaving ? '#64748b' : a.role === 'superintendent' ? '#f8fafc' : shiftColor, flex: 'none' }} />
-        <b style={{ fontWeight: 600 }}>{a.name}</b>
-        <span className="dim" style={{ fontSize: 10.5 }}>{a.role === 'superintendent' ? 'Supt.' : 'Tech'} · {a.device}</span>
+        <b style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{a.name}</b>
+        <span className="dim" style={{ fontSize: 10.5 }} title={DEVICE[a.deviceKind].label}>{a.role === 'superintendent' ? 'Supt.' : 'Tech'} · {a.device}</span>
         <span style={{ flex: 1 }} />
         <Signal v={a.signal} />
         <Battery v={a.battery} />
       </div>
       <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 3, display: 'flex', gap: 6 }}>
+        <span style={{ color: '#22d3ee', flex: 'none' }}>{DEVICE[a.deviceKind].short}</span>
         <span style={{ color: '#64748b', flex: 'none' }}>{sim.zoneOf(a)}</span>
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: a.leaving ? '#64748b' : '#c3cde0' }}>{a.leaving ? 'Off shift — leaving' : a.activity}</span>
       </div>
@@ -338,7 +347,7 @@ function Detail({ sel, sim, onClose, onOpenAsset, onPickAgent }) {
       <div style={card}>
         {close}
         <div style={{ fontSize: 14, fontWeight: 700 }}>{a.name}</div>
-        <div className="dim">{a.role === 'superintendent' ? 'Shift superintendent' : 'Field technician'} · shift {a.shift} · tablet {a.device}</div>
+        <div className="dim">{a.role === 'superintendent' ? 'Shift superintendent' : 'Field technician'} · shift {a.shift} · {DEVICE[a.deviceKind].label} {a.device}</div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', margin: '6px 0' }}>
           <Battery v={a.battery} /> <Signal v={a.signal} /> <span className="dim">{sim.zoneOf(a)}</span>
         </div>
@@ -351,7 +360,7 @@ function Detail({ sel, sim, onClose, onOpenAsset, onPickAgent }) {
             <a onClick={() => onOpenAsset(job.assetId)} style={{ cursor: 'pointer' }}>cited action plan →</a>
           </div>
         )}
-        {mine.length > 0 && <div className="up dim" style={{ marginTop: 6 }}>Tablet log</div>}
+        {mine.length > 0 && <div className="up dim" style={{ marginTop: 6 }}>Device log</div>}
         {mine.map((l, i) => <div key={i} style={{ color: '#94a3b8', padding: '2px 0' }}><span className="mono dim">{hhmm(l.t)}</span> {l.text}</div>)}
       </div>
     )
@@ -362,7 +371,9 @@ function Detail({ sel, sim, onClose, onOpenAsset, onPickAgent }) {
     <div style={card}>
       {close}
       <div className="mono" style={{ fontSize: 13, fontWeight: 700 }}>{s.sku}</div>
-      <div className="dim" style={{ marginBottom: 6 }}>{s.desc} · bin {s.bin}</div>
+      <div style={{ color: '#7dd3fc', margin: '2px 0' }}>{s.type} · {s.brand}</div>
+      <div className="dim">{s.desc} · bin {s.bin}</div>
+      <div style={{ margin: '6px 0', display: 'inline-block', fontSize: 10.5, fontWeight: 700, letterSpacing: '.05em', padding: '2px 8px', borderRadius: 4, color: '#05080f', background: stockStatus(s).color }}>{stockStatus(s).label}</div>
       <div>On hand <b className="mono">{s.onHand}</b> · reorder point {s.reorderPoint} · reorder qty {s.reorderQty}</div>
       <div className="dim">Lead time {s.leadDays} d · ${s.unitCost} / unit · {s.picked} picked since open</div>
       {s.inbound > 0 && <div style={{ color: '#a3e635', marginTop: 4 }}>PO inbound: {s.inbound} units, arrives in {dur(s.eta - sim.simTime)}</div>}

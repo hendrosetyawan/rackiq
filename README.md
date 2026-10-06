@@ -1,13 +1,13 @@
 # RackIQ
 
-**Predictive hardware failure & cited RCA recommendation copilot for data center operations**
+**Data center management system with its own sensors: predictive hardware failure, a cited RCA copilot and live technician tracking**
 
 ABB Accelerator 2026 — hybrid of Theme 1 (Agentic Predictive Maintenance Studio) and Theme 2
 (Multimodal Maintenance Intelligence Agent), applied to data-center hardware.
 
 Team **RackIQ**: Tasmaiya Tamboli · Hendro Setyawan
 
-- **Live demo:** https://rackiq-copilot.web.app (static snapshot build, see below)
+- **Live demo:** https://rackiq-copilot.web.app (static snapshot build, see below) · Live Floor 3D: https://rackiq-copilot.web.app/live
 - **Demo video:** [`docs/media/rackiq_demo.mp4`](docs/media/rackiq_demo.mp4) — 59 s click-driven walkthrough: floor → rack → failing part → cited fix → spare part
 
 ---
@@ -25,6 +25,22 @@ closed ticket, an RCA or an email thread. RackIQ:
    maintenance window) with a safety step first.
 4. **Links spare parts**: every recommended fix shows the matching SKU's stock; the warehouse view
    flags SKUs that cannot cover the failures the models predict.
+
+## Business model
+
+RackIQ sells three things that work as one loop (full plan: [`docs/BUSINESS_PLAN.md`](docs/BUSINESS_PLAN.md)):
+
+| Line | What | Price |
+|---|---|---|
+| **RackIQ Sense** (telemetry devices) | Node on every rack: temperature, humidity, door, vibration, PDU bridge, BLE anchor. Edge gateway per 50 racks: BMC telemetry over Redfish/IPMI/SNMP, read-only, scored on site | $349 per node · $2,900 per gateway (one-time) |
+| **RackIQ Crew** (technician monitoring) | Track each technician by phone app, rugged tablet or smart ID badge: zone, job, part scans, progress, shift handover | $19 per technician per month · $79 badge · $699 tablet (optional) |
+| **RackIQ Platform** (subscription) | DCIM, 3D live floor, failure prediction, cited RCA copilot, spare-part inventory | $2 / $5 / $8 per server per month (Monitor / Predict / Enterprise) |
+
+**Reference hall** (100 racks, 800 servers, 15 crew, Predict tier):
+- $48.0K one-time (hardware + install) plus $51.4K ARR.
+- About 18-month payback on labor savings alone, before 11,140 minutes a year of avoided downtime.
+
+**Scope:** enterprise and colocation halls with 500–5,000 mixed-vendor servers. RackIQ reads power and cooling but never controls it, and it integrates with ServiceNow and the BMS rather than replacing them.
 
 ## The prototype (v2)
 

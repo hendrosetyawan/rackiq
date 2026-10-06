@@ -1,6 +1,7 @@
 // Vendored from Claw3D (https://github.com/iamlukethedev/claw3d, MIT, see ./LICENSE),
 // src/features/retro-office/objects/agents.tsx at the commit in ./UPSTREAM_COMMIT.
-// RackIQ changes: relative imports; explicit scene font (./font); crew members carry a tracking tablet ("device"),
+// RackIQ changes: relative imports; explicit scene font (./font); crew members carry a tracking device
+// ("deviceKind": rugged tablet, phone or smart ID badge),
 // carry spare-part boxes, animate repairs at a rack, and can wear a safety helmet.
 import { Billboard, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -96,6 +97,8 @@ export const AgentModel = memo(function AgentModel({
   const tabletRef = useRef<THREE.Group>(null);
   const tabletScreenRef = useRef<THREE.MeshBasicMaterial>(null);
   const carryRef = useRef<THREE.Group>(null);
+  const badgeRef = useRef<THREE.Group>(null);
+  const badgeLedRef = useRef<THREE.MeshBasicMaterial>(null);
   const pos = useRef(new THREE.Vector3(0, 0, 0));
   const resolvedAppearance = useMemo(
     () => appearance ?? createDefaultAgentAvatarProfile(agentId),
@@ -570,12 +573,18 @@ export const AgentModel = memo(function AgentModel({
     }
 
     // ---- RackIQ crew behaviour -------------------------------------------
-    const crew = agent as RenderAgent & { device?: boolean; carrying?: string | null; task?: string };
+    const crew = agent as RenderAgent & { device?: string; deviceKind?: string; carrying?: string | null; task?: string };
+    const kind = crew.device ? crew.deviceKind ?? "tablet" : null;
     const carrying = Boolean(crew.carrying);
     const repairing = crew.task === "repair" && agent.state === "standing";
     const scanning = crew.task === "scan" && agent.state === "standing";
     if (carryRef.current) carryRef.current.visible = carrying;
-    if (tabletRef.current) tabletRef.current.visible = Boolean(crew.device) && !carrying;
+    if (tabletRef.current) {
+      tabletRef.current.visible = (kind === "tablet" || kind === "phone") && !carrying;
+      tabletRef.current.scale.setScalar(kind === "phone" ? 0.6 : 1);
+    }
+    if (badgeRef.current) badgeRef.current.visible = kind === "badge";
+    if (badgeLedRef.current) badgeLedRef.current.opacity = Math.sin(agent.frame * 0.12) > 0.6 ? 1 : 0.15;
     if (tabletScreenRef.current) {
       const glow = 0.75 + Math.sin(agent.frame * 0.09) * 0.25;
       tabletScreenRef.current.color.setRGB(0.13 * glow, 0.83 * glow, 0.93 * glow);
@@ -961,6 +970,24 @@ export const AgentModel = memo(function AgentModel({
         <mesh position={[0, -0.17, 0]}>
           <boxGeometry args={[0.05, 0.05, 0.05]} />
           <meshLambertMaterial color={skin} />
+        </mesh>
+      </group>
+      <group ref={badgeRef} position={[0.045, 0.27, 0.053]} visible={false}>
+        <mesh position={[-0.02, 0.05, 0]} rotation={[0, 0, 0.5]}>
+          <boxGeometry args={[0.008, 0.07, 0.004]} />
+          <meshBasicMaterial color="#22d3ee" />
+        </mesh>
+        <mesh>
+          <boxGeometry args={[0.045, 0.062, 0.006]} />
+          <meshBasicMaterial color="#f8fafc" />
+        </mesh>
+        <mesh position={[0, 0.016, 0.0035]}>
+          <planeGeometry args={[0.035, 0.012]} />
+          <meshBasicMaterial color="#0e7490" />
+        </mesh>
+        <mesh position={[0.012, -0.018, 0.0035]}>
+          <circleGeometry args={[0.006, 10]} />
+          <meshBasicMaterial ref={badgeLedRef} color="#22d3ee" transparent toneMapped={false} />
         </mesh>
       </group>
       <group ref={carryRef} position={[0, 0.2, 0.16]} visible={false}>

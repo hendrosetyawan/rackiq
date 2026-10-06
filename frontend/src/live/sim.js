@@ -4,7 +4,7 @@
 // stock). Crew movement runs in real time; work durations, stock arrivals and the
 // shift clock run in simulated time at `speed`x so an 8-hour shift can be watched.
 import { NOC, OUTSIDE, ENTRANCE, binSpot, rackFront, route } from './layout.js'
-import { crewFor, shiftAt, shiftWindow } from './crews.js'
+import { DEVICE, crewFor, shiftAt, shiftWindow } from './crews.js'
 
 export const STATUS_ORDER = ['failed', 'critical', 'warning', 'maintenance', 'watch', 'offline', 'empty', 'healthy']
 export const STATUS_LABEL = {
@@ -28,6 +28,21 @@ export const STATUS_COLOR = {
   offline: '#64748b',
 }
 const PART_LABEL = { dimm: 'DIMM', disk: 'drive', psu: 'PSU', nic: 'NIC', fan: 'fan module' }
+export const PART_TYPE = {
+  dimm: 'Memory DIMM', disk_ssd: 'NVMe SSD', disk_hdd: 'SAS hard drive', psu: 'Power supply',
+  fan: 'Fan module', nic: 'Network card', sfp: 'Optical transceiver', cable: 'DAC cable',
+}
+
+/** Live stock status of a bin, from its current count, reorder point and open POs. */
+export function stockStatus(st) {
+  if (st.onHand <= 0) return st.inbound > 0
+    ? { key: 'out', label: 'OUT OF STOCK · PO INBOUND', short: 'Out · PO inbound', color: '#ef4444' }
+    : { key: 'out', label: 'OUT OF STOCK', short: 'Out of stock', color: '#ef4444' }
+  if (st.onHand <= st.reorderPoint) return st.inbound > 0
+    ? { key: 'low', label: 'LOW · PO INBOUND', short: 'Low · PO inbound', color: '#f59e0b' }
+    : { key: 'reorder', label: 'LOW · REORDER NOW', short: 'Reorder now', color: '#f97316' }
+  return { key: 'ok', label: 'IN STOCK', short: 'In stock', color: '#22c55e' }
+}
 const WALK = 78 // canvas units per real second (~1.4 m/s)
 const H = 3600_000
 
@@ -78,7 +93,7 @@ export class LiveSim {
 
     this.stock = new Map(
       inventory.map((s, i) => [s.sku, {
-        sku: s.sku, desc: s.desc, idx: i, spot: binSpot(i), bin: s.bin, onHand: s.on_hand, reorderPoint: s.reorder_point,
+        sku: s.sku, desc: s.desc, brand: s.brand || '—', part: s.part, type: PART_TYPE[s.part] || s.part, idx: i, spot: binSpot(i), bin: s.bin, onHand: s.on_hand, reorderPoint: s.reorder_point,
         reorderQty: s.reorder_qty, leadDays: s.lead_time_days, unitCost: s.unit_cost,
         inbound: s.inbound_qty, eta: s.next_arrival ? Math.max(now.getTime() + 2 * H, Date.parse(`${s.next_arrival}T07:00:00`) + etaShift) : null, picked: 0,
       }]),
@@ -364,7 +379,7 @@ export class LiveSim {
 
   stepAgent(a, dt, simDelta, walkFactor) {
     a.frame += dt * 60
-    a.battery = Math.max(5, a.battery - (simDelta / H) * (a.role === 'superintendent' ? 4 : 6))
+    a.battery = Math.max(5, a.battery - (simDelta / H) * DEVICE[a.deviceKind].drainPerH)
     if (!a.action) {
       if (!a.plan.length) {
         if (a.leaving) return
@@ -430,7 +445,8 @@ export class LiveSim {
         act.onDone?.()
       }
     }
-    a.signal = a.x > 1270 ? 3 : 4
+    // badges are located by the nearest RackIQ Sense rack nodes (BLE); tablets and phones over Wi-Fi
+    a.signal = a.deviceKind === 'badge' ? (a.x > 1270 ? 2 : 3) : a.x > 1270 ? 3 : 4
   }
 
   // ------------------------------------------------------------ read models for the UI

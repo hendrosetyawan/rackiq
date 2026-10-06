@@ -14,7 +14,11 @@ fix waits.
 
 ## Solution
 
-RackIQ is an intelligence layer above existing monitoring, ITSM and inventory tools:
+RackIQ is a data center management system with its own sensors, in three parts:
+
+- **RackIQ Sense** (telemetry devices): a node on every rack (environment, door, PDU, BLE anchor) and an edge gateway that reads BMC health read-only.
+- **RackIQ Crew** (technician monitoring): each technician is tracked by phone app, rugged tablet or smart ID badge, showing zone, job, part scans, progress and shift handover.
+- **RackIQ Platform** (subscription software): DCIM plus the intelligence below.
 
 1. **Predict** — 72-hour failure risk for every component from telemetry trends, explained with
    SHAP, plus a telemetry anomaly index for early warnings.
@@ -27,7 +31,7 @@ RackIQ is an intelligence layer above existing monitoring, ITSM and inventory to
 
 ## Prototype
 
-A DCIM-style web app (React + D3.js) with five sections — Command Center (3D 100-rack floor),
+A DCIM-style web app (React + D3.js + three.js) with six sections. Live Floor 3D is a digital twin of the hall and warehouse: a crew of 4 technicians and 1 superintendent per 8-hour shift works the job queue; every server and bin shows its status; tablets, phones and ID badges are tracked live. The other sections are Command Center (3D 100-rack floor),
 Operations (telemetry, thermal, AI model health), Maintenance (risk matrix, work queue, RCA copilot),
 Event Log (12-month incident clock, MELT event stream) and Inventory (stock runway, turnover,
 consumption) — on a FastAPI backend with five LightGBM models, hybrid retrieval, a fault knowledge
@@ -45,9 +49,20 @@ incident memory; operationally context-aware; and connects maintenance to spare-
 combinations not offered together by vendor predictive tools, ServiceNow AI search or AIOps
 alert-correlation platforms.
 
-## Illustrative impact
+## Impact (12-month synthetic record, 800 servers)
 
-For a data center with 50–100 hardware incidents a month and 30–45 minutes of manual RCA lookup each,
-halving diagnosis time saves roughly 15–25 engineer-hours a month, before counting avoided SLA
-exposure during DR or migration windows and avoided waits for parts. Planning assumptions to validate
-in a pilot, not measured results.
+- 653 labor hours saved by prediction and cited fixes, plus about 236 hours of crew admin.
+- Repeat fixes fall from 164 to 41.
+- Unplanned downtime falls 66%.
+
+## Business model
+
+| Line | Price |
+|---|---|
+| Sense hardware | $349 per rack node + $2,900 per gateway |
+| Crew | $19 per technician per month (badge $79, tablet $699 optional) |
+| Platform subscription | $2 / $5 / $8 per server per month |
+
+- **Reference hall:** $48.0K one-time plus $51.4K ARR.
+- **Plan:** 45 halls and $2.31M ARR by 2029.
+- **Details:** [`BUSINESS_PLAN.md`](BUSINESS_PLAN.md).

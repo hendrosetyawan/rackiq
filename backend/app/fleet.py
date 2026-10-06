@@ -348,7 +348,7 @@ class Fleet:
         for aid, row in at_risk.iterrows():
             linked.setdefault(row.sku, []).append({"asset_id": aid, "risk": r2(row.risk_score, 3), "state": row.state})
         inv["linked_assets"] = inv.sku.map(lambda k: linked.get(k, []))
-        cols = ["sku", "desc", "part", "family", "fit", "unit_cost", "lead_time_days", "bin", "warehouse", "on_hand", "inbound_qty",
+        cols = ["sku", "desc", "brand", "part", "family", "fit", "unit_cost", "lead_time_days", "bin", "warehouse", "on_hand", "inbound_qty",
                 "next_arrival", "safety_stock", "reorder_point", "reorder_qty", "issued_12m", "stockout_days_12m", "avg_on_hand",
                 "turns", "turn_cycle_days", "days_of_cover", "ml_demand", "n_at_risk", "baseline_30d", "projected_30d", "value_usd",
                 "status", "linked_assets"]

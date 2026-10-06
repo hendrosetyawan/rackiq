@@ -39,14 +39,25 @@ export function appearanceFor(name, role, shift) {
   return p
 }
 
+// RackIQ Crew tracks a technician through whichever device they carry: a rugged
+// tablet, the phone app (BYOD) or a smart ID badge read by the rack nodes' BLE anchors.
+export const DEVICE = {
+  tablet: { prefix: 'TAB', label: 'Rugged tablet', short: 'Tablet', drainPerH: 6 },
+  phone: { prefix: 'PHN', label: 'Phone app', short: 'Phone', drainPerH: 4 },
+  badge: { prefix: 'BDG', label: 'Smart ID badge', short: 'Badge', drainPerH: 0.02 },
+}
+const TECH_DEVICES = ['tablet', 'badge', 'phone', 'badge']
+const deviceId = (kind, shift, n) => `${DEVICE[kind].prefix}-${shift.id}${n}`
+
 export function crewFor(shift) {
   const members = shift.crew.map((name, i) => ({
     id: `${shift.id}-T${i + 1}`,
     name,
     role: 'technician',
-    device: `TAB-${shift.id}${i + 1}`,
+    deviceKind: TECH_DEVICES[i],
+    device: deviceId(TECH_DEVICES[i], shift, i + 1),
     color: '#f97316',
   }))
-  members.push({ id: `${shift.id}-S`, name: shift.supt, role: 'superintendent', device: `TAB-${shift.id}S`, color: '#3b82f6' })
+  members.push({ id: `${shift.id}-S`, name: shift.supt, role: 'superintendent', deviceKind: 'phone', device: deviceId('phone', shift, 'S'), color: '#3b82f6' })
   return members.map((m) => ({ ...m, shift: shift.id, appearance: appearanceFor(m.name, m.role, shift) }))
 }

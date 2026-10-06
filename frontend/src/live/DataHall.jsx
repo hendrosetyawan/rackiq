@@ -2,7 +2,7 @@
 // (src/vendor/claw3d); the rack cabinets follow Claw3D's ServerRackModel design
 // (dark cabinet, stacked 1U faceplates, a status LED per unit), instanced so all
 // 100 racks / 800 servers draw in a handful of calls.
-import { OrbitControls, Text } from '@react-three/drei'
+import { Billboard, OrbitControls, Text } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Suspense, useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
@@ -11,7 +11,7 @@ import { SCENE_FONT } from '../vendor/claw3d/font'
 import { toWorld } from '../vendor/claw3d/geometry'
 import { STATE_COLOR } from '../lib/theme.js'
 import { AISLE_Y, DOOR_Y, ENTRANCE, HALL, LANE_X, NOC, RACK_D, RACK_W, ROWS, ROW_X0, ROW_Y, WAREHOUSE, rackCenter } from './layout.js'
-import { STATUS_COLOR } from './sim.js'
+import { STATUS_COLOR, stockStatus } from './sim.js'
 
 const S = 0.018
 const RW = RACK_W * S
@@ -163,6 +163,64 @@ function Racks({ sim, selectedRack, onHover, onPick }) {
   )
 }
 
+// ------------------------------------------------------------------ RackIQ hardware
+// One RackIQ Sense node on top of every rack (inlet/outlet temperature + humidity,
+// door, vibration, PDU bridge and a BLE anchor for crew badges), and one Edge gateway
+// per 50 racks collecting BMC telemetry read-only.
+function SenseHardware({ racks }) {
+  const nodes = useRef()
+  const leds = useRef()
+  const pos = useMemo(() => racks.map((r) => {
+    const c = rackCenter(r.row, r.pos)
+    return W(c.x, c.y)
+  }), [racks])
+  useLayoutEffect(() => {
+    pos.forEach(([x, , z], i) => {
+      tmpObj.rotation.set(0, 0, 0)
+      tmpObj.scale.set(1, 1, 1)
+      tmpObj.position.set(x + RW / 2 - 0.13, RH + 0.035, z - RD / 2 + 0.14)
+      tmpObj.updateMatrix()
+      nodes.current.setMatrixAt(i, tmpObj.matrix)
+      tmpObj.position.set(x + RW / 2 - 0.13, RH + 0.072, z - RD / 2 + 0.14)
+      tmpObj.updateMatrix()
+      leds.current.setMatrixAt(i, tmpObj.matrix)
+    })
+    nodes.current.instanceMatrix.needsUpdate = true
+    leds.current.instanceMatrix.needsUpdate = true
+  }, [pos])
+  useFrame(({ clock }) => {
+    leds.current.material.opacity = 0.35 + 0.65 * Math.max(0, Math.sin(clock.elapsedTime * 2.2))
+  })
+  const n = racks.length
+  return (
+    <group>
+      <instancedMesh ref={nodes} args={[null, null, n]} raycast={() => null}>
+        <boxGeometry args={[0.2, 0.07, 0.14]} />
+        <meshStandardMaterial color="#e2e8f0" roughness={0.4} />
+      </instancedMesh>
+      <instancedMesh ref={leds} args={[null, null, n]} raycast={() => null}>
+        <sphereGeometry args={[0.028, 10, 8]} />
+        <meshBasicMaterial color="#22d3ee" transparent toneMapped={false} />
+      </instancedMesh>
+      {[ROW_Y[1], ROW_Y[3]].map((y, i) => (
+        <group key={y} position={W(HALL.x0 + 8, y)}>
+          <mesh position={[0.06, 1.0, 0]}>
+            <boxGeometry args={[0.1, 0.5, 0.36]} />
+            <meshStandardMaterial color="#0f172a" metalness={0.4} />
+          </mesh>
+          <mesh position={[0.115, 1.0, 0]} rotation={[0, Math.PI / 2, 0]}>
+            <planeGeometry args={[0.3, 0.44]} />
+            <meshBasicMaterial color="#0e7490" toneMapped={false} />
+          </mesh>
+          <Text font={SCENE_FONT} position={[0.125, 1.0, 0]} rotation={[0, Math.PI / 2, 0]} fontSize={0.055} color="#e0f2fe" anchorX="center" anchorY="middle" textAlign="center" maxWidth={0.28}>
+            {`RackIQ\nEDGE\nGW-0${i + 1}`}
+          </Text>
+        </group>
+      ))}
+    </group>
+  )
+}
+
 // ------------------------------------------------------------------ building
 function useTileTexture(color, line, repeatX, repeatY) {
   return useMemo(() => {
@@ -282,15 +340,49 @@ function Nocc() {
 }
 
 // ------------------------------------------------------------------ warehouse
-const stockColor = (s) => (s.onHand <= 0 ? '#ef4444' : s.onHand <= s.reorderPoint ? '#f97316' : '#22c55e')
+function BinSign({ s, status, selected }) {
+  const band = useRef()
+  useFrame(({ clock }) => {
+    // out-of-stock and reorder signs pulse so they stand out from across the hall
+    if (band.current) band.current.opacity = status.key === 'ok' ? 1 : 0.65 + 0.35 * Math.sin(clock.elapsedTime * (status.key === 'out' ? 6 : 3))
+  })
+  const W2 = 1.5
+  return (
+    <Billboard position={[0, 1.55, 0]}>
+      <mesh position={[0, 0, -0.005]}>
+        <planeGeometry args={[W2 + 0.04, 0.66]} />
+        <meshBasicMaterial color={selected ? '#22d3ee' : status.color} transparent opacity={0.9} />
+      </mesh>
+      <mesh>
+        <planeGeometry args={[W2, 0.62]} />
+        <meshBasicMaterial color="#0b1222" transparent opacity={0.94} />
+      </mesh>
+      <mesh position={[0, 0.235, 0.002]}>
+        <planeGeometry args={[W2, 0.15]} />
+        <meshBasicMaterial ref={band} color={status.color} transparent toneMapped={false} />
+      </mesh>
+      <Text font={SCENE_FONT} position={[0, 0.235, 0.004]} fontSize={0.092} color="#05080f" anchorX="center" anchorY="middle">
+        {status.label}
+      </Text>
+      <Text font={SCENE_FONT} position={[0, 0.09, 0.004]} fontSize={0.095} color="#7dd3fc" anchorX="center" anchorY="middle" maxWidth={W2 - 0.08}>
+        {`${s.type} · ${s.brand}`}
+      </Text>
+      <Text font={SCENE_FONT} position={[0, -0.04, 0.004]} fontSize={0.1} color="#e2e8f0" anchorX="center" anchorY="middle">
+        {s.sku}
+      </Text>
+      <Text font={SCENE_FONT} position={[0, -0.18, 0.004]} fontSize={0.085} color="#94a3b8" anchorX="center" anchorY="middle">
+        {`Bin ${s.bin} · ${s.onHand} on hand · ROP ${s.reorderPoint}${s.inbound ? ` · +${s.inbound} PO` : ''}`}
+      </Text>
+    </Billboard>
+  )
+}
 
 function Bin({ s, selected, onPick }) {
   const [x, , z] = W(s.spot.shelfX, s.spot.y)
-  const face = s.spot.left ? 1 : -1
   const depth = 0.6
   const width = 1.45
   const boxes = Math.min(s.onHand, 12)
-  const col = stockColor(s)
+  const status = stockStatus(s)
   return (
     <group position={[x, 0, z]} onClick={(e) => (e.stopPropagation(), onPick(s.sku))}>
       {[0.05, 0.42, 0.79].map((y) => (
@@ -305,6 +397,10 @@ function Bin({ s, selected, onPick }) {
           <meshStandardMaterial color="#1e40af" />
         </mesh>
       )))}
+      <mesh position={[0, 1.12, 0]}>
+        <boxGeometry args={[depth, 0.05, width]} />
+        <meshBasicMaterial color={status.color} toneMapped={false} />
+      </mesh>
       {Array.from({ length: boxes }, (_, i) => {
         const level = Math.floor(i / 4)
         const k = i % 4
@@ -315,20 +411,13 @@ function Bin({ s, selected, onPick }) {
           </mesh>
         )
       })}
-      <mesh position={[(face * depth) / 2 + face * 0.01, 1.18, 0]} rotation={[0, (face * Math.PI) / 2, 0]}>
-        <planeGeometry args={[1.4, 0.38]} />
-        <meshBasicMaterial color={selected ? '#0e7490' : '#0b1222'} transparent opacity={0.9} />
-      </mesh>
-      <mesh position={[0, 1.12, 0]}>
-        <boxGeometry args={[0.1, 0.06, width - 0.1]} />
-        <meshBasicMaterial color={col} toneMapped={false} />
-      </mesh>
-      <Text font={SCENE_FONT} position={[(face * depth) / 2 + face * 0.02, 1.25, 0]} rotation={[0, (face * Math.PI) / 2, 0]} fontSize={0.105} color="#e2e8f0" anchorX="center" anchorY="middle">
-        {`${s.sku}`}
-      </Text>
-      <Text font={SCENE_FONT} position={[(face * depth) / 2 + face * 0.02, 1.1, 0]} rotation={[0, (face * Math.PI) / 2, 0]} fontSize={0.095} color={col} anchorX="center" anchorY="middle">
-        {`${s.bin} · ${s.onHand} on hand${s.inbound ? ` · +${s.inbound} PO` : ''}`}
-      </Text>
+      {boxes === 0 && (
+        <mesh position={[0, 0.25, 0]} rotation={[0, s.spot.left ? Math.PI / 2 : -Math.PI / 2, 0]}>
+          <planeGeometry args={[width - 0.1, 0.3]} />
+          <meshBasicMaterial color="#ef4444" transparent opacity={0.25} side={THREE.DoubleSide} />
+        </mesh>
+      )}
+      <BinSign s={s} status={status} selected={selected} />
     </group>
   )
 }
@@ -456,7 +545,7 @@ function CameraRig({ agentsRef, followId, focus }) {
       lastFocus.current = focus
       goal.current = focus.home
         ? { target: HOME_TARGET.clone(), cam: HOME_CAM.clone() }
-        : { target: new THREE.Vector3(...W(focus.x, focus.y)), zoom: true }
+        : { target: new THREE.Vector3(...W(focus.x, focus.y)), zoom: true, offset: focus.offset ? new THREE.Vector3(...focus.offset) : CLOSE }
     }
     if (followId !== lastFollow.current) {
       lastFollow.current = followId
@@ -470,7 +559,7 @@ function CameraRig({ agentsRef, followId, focus }) {
     const prev = c.target.clone()
     c.target.lerp(target, 0.08)
     const zooming = a ? zoomIn.current : goal.current?.zoom
-    const camGoal = goal.current?.cam && !a ? goal.current.cam : zooming ? target.clone().add(CLOSE) : null
+    const camGoal = goal.current?.cam && !a ? goal.current.cam : zooming ? target.clone().add(a ? CLOSE : goal.current.offset) : null
     if (camGoal) {
       camera.position.lerp(camGoal, 0.06)
       if (camera.position.distanceTo(camGoal) < 0.15) {
@@ -500,6 +589,9 @@ export default function DataHall({ sim, agentsRef, lookupRef, crew, stock, activ
       <Racks sim={sim} selectedRack={selected?.kind === 'rack' ? selected.id : null} onHover={onHover} onPick={onPickRack} />
       <JobRings racks={activeRacks} />
       <Suspense fallback={null}>
+        <SenseHardware racks={sim.racks} />
+      </Suspense>
+      <Suspense fallback={null}>
         <Warehouse stock={stock} selectedSku={selected?.kind === 'sku' ? selected.id : null} onPick={onPickSku} />
       </Suspense>
       {crew.map((a) => (
@@ -508,7 +600,7 @@ export default function DataHall({ sim, agentsRef, lookupRef, crew, stock, activ
           key={a.id}
           agentId={a.id}
           name={a.name}
-          subtitle={a.role === 'superintendent' ? `Superintendent · ${a.device}` : a.device}
+          subtitle={a.role === 'superintendent' ? `Supt. · ${a.device}` : a.device}
           status={a.battery < 15 ? 'error' : a.status}
           color={a.color}
           appearance={a.appearance}
